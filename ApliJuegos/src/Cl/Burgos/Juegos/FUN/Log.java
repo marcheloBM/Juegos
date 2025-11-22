@@ -23,11 +23,10 @@ import javax.swing.JOptionPane;
  * @author marchelo
  */
 public class Log {
-    String url = ApliJuegos.Url;
     public static void log(String msg){
 //        String url="c:/Users/march/Desktop/myfile.log";
 //        String url="f:/myfile.log";
-        String url=Directorio.selectDirecPre()+"/Log.log";
+        String url=Confi.Url+"/Log.log";
         
         try(PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(url, true)))) {
             DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -45,11 +44,11 @@ public class Log {
     
     public static void AbrirLog(){
         //Archivo Log
-        String url=Directorio.selectDirecPre()+"/Log.log";
+        String url=Confi.Url+"/Log.log";
         
         try {
             Directorio.abrirArchivo(url);
-            Directorio.abrirDirecPre();
+            Directorio.abrirDirecPri();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null,"Hubo un error"+ex);
         }

@@ -13,12 +13,10 @@ package Cl.Burgos.Juegos.FUN;
 public interface Confi {
     
     //Configuracion de Directorio
-    static String SO = System.getProperty("os.name");
+//    static String SO = System.getProperty("os.name");
+    static String Url=System.getProperty("user.dir");
     
-    //Configuraciones para Update
-    static String nameArchivo = "ApliJuegos.zip";
-    static String CarpetaUpdate = "Update/";
-    static String Version = "1.12";
-    static String UrlVersion = "https://raw.githubusercontent.com/marcheloBM/Juegos/main/Archivos/version.txt";
-    static String UrlDescarga = "https://raw.githubusercontent.com/marcheloBM/Juegos/main/Archivos/Descarga.txt";
+    //Configuracion Nuevo Update
+    static String repositorio = "https://github.com/marcheloBM/Juegos";
+    static String versionActual = "1.13";
 }

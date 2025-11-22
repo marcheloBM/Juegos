@@ -29,7 +29,7 @@ import javax.imageio.ImageIO;
  * @author Marchelo
  */
 public class DescargarIMGAll {
-    String url = ApliJuegos.Url+"\\IMG\\";
+    String url = Confi.Url+"\\IMG\\";
     int numPSX=0;
     int numPS2=0;
     int numPSP=0;

@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
@@ -72,7 +73,6 @@ public class FrPc extends javax.swing.JFrame {
         getLayeredPane().add(fondo,JLayeredPane.FRAME_CONTENT_LAYER);
         fondo.setBounds(0,0,MyImgCustom.getIconWidth(),MyImgCustom.getIconHeight());
         
-        jMenuItem1.setVisible(ApliJuegos.Update); 
     }
 
     public void Limpiar(){
@@ -158,14 +158,17 @@ public class FrPc extends javax.swing.JFrame {
             fila[7]=lista.get(i).getVideo();
             try{
                 String urlImagen = System.getProperties().getProperty("user.dir")+"/IMG/PC/"+lista.get(i).getCodigo()+".jpg";
-                ImageIcon icon = new ImageIcon(urlImagen);
-                ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
-//                    byte[] bi = lista.get(i).getImagen();
-//                    BufferedImage image = null;
-//                    InputStream in = new ByteArrayInputStream(bi);
-//                    image = ImageIO.read(in);
-//                    ImageIcon imgi = new ImageIcon(image.getScaledInstance(60, 60, 0));
+                File archivo = new File(urlImagen);
+                if (!archivo.exists()) {
+                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
+                    ImageIcon icon = new ImageIcon(ruta);
+                    ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
                     fila[8] = new JLabel(imgi);
+                }else{
+                    ImageIcon icon = new ImageIcon(urlImagen);
+                    ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
+                    fila[8] = new JLabel(imgi);
+                }
 
                 }catch(Exception ex){
                     fila[8] = new JLabel("No imagen");
@@ -233,14 +236,17 @@ public class FrPc extends javax.swing.JFrame {
             fila[7]=lista.get(i).getVideo();
             try{
                 String urlImagen = System.getProperties().getProperty("user.dir")+"/IMG/PC/"+lista.get(i).getCodigo()+".jpg";
-                ImageIcon icon = new ImageIcon(urlImagen);
-                ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
-//                    byte[] bi = lista.get(i).getImagen();
-//                    BufferedImage image = null;
-//                    InputStream in = new ByteArrayInputStream(bi);
-//                    image = ImageIO.read(in);
-//                    ImageIcon imgi = new ImageIcon(image.getScaledInstance(60, 60, 0));
+                File archivo = new File(urlImagen);
+                if (!archivo.exists()) {
+                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
+                    ImageIcon icon = new ImageIcon(ruta);
+                    ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
                     fila[8] = new JLabel(imgi);
+                }else{
+                    ImageIcon icon = new ImageIcon(urlImagen);
+                    ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
+                    fila[8] = new JLabel(imgi);
+                }
 
                 }catch(Exception ex){
                     fila[8] = new JLabel("No imagen");
@@ -320,7 +326,7 @@ public class FrPc extends javax.swing.JFrame {
             clPc = new ClPc(codi.trim(), txtNombre.getText().trim(), disco1+" "+capasid1, 
                     proce+" "+capasidPro, siste1, txtRam.getText().trim()+" "+capaRam, txtVideo.getText().trim()+" "+capaVideo, txtRuta.getText());
         }else{
-            String ruta = "./src/Cl/Burgos/Juegos/IMG/PC.png";
+            String ruta = "./src/Cl/Burgos/Juegos/IMG/PC.jpg";
             clPc = new ClPc(codi.trim(), txtNombre.getText().trim(), disco1+" "+capasid1, 
                     proce+" "+capasidPro, siste1, txtRam.getText().trim()+" "+capaRam, txtVideo.getText().trim()+" "+capaVideo, ruta);
         }
@@ -407,7 +413,6 @@ public class FrPc extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -771,17 +776,6 @@ public class FrPc extends javax.swing.JFrame {
         jMenu2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jMenu2.setText("Ayuda");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK));
-        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Update.png"))); // NOI18N
-        jMenuItem1.setText("Actualizacion");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem1);
-
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Ayuda.png"))); // NOI18N
         jMenu3.setText("Contacto");
 
@@ -982,11 +976,32 @@ public class FrPc extends javax.swing.JFrame {
                     
                     byte[] bi = datosCliente.get(i).getImagen();
                     BufferedImage image = null;
-                    InputStream in = new ByteArrayInputStream(bi);
-                    image = ImageIO.read(in);
-                    ImageIcon imgi = new ImageIcon(image.getScaledInstance(lblImgen.getWidth(), lblImgen.getHeight(), Image.SCALE_DEFAULT));
-                    this.lblImgen.setText("");
-                    this.lblImgen.setIcon(imgi);
+
+                    try {
+                        if (bi != null && bi.length > 0) {
+                            InputStream in = new ByteArrayInputStream(bi);
+                            image = ImageIO.read(in);
+                        } else {
+                            // Cargar imagen por defecto desde ruta local
+                            image = ImageIO.read(new File("./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg"));
+                        }
+
+                        if (image != null) {
+                            ImageIcon imgi = new ImageIcon(image.getScaledInstance(
+                                lblImgen.getWidth(), lblImgen.getHeight(), Image.SCALE_SMOOTH));
+                            lblImgen.setIcon(imgi);
+                            lblImgen.setText("");
+                        } else {
+                            lblImgen.setIcon(null);
+                            lblImgen.setText("Imagen no disponible");
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        Log.log(e.getMessage());
+                        lblImgen.setIcon(null);
+                        lblImgen.setText("Error al cargar imagen");
+                    }
+
                 }
                 this.btnAgregar.setEnabled(false);
                 this.btnEliminar.setEnabled(true);
@@ -999,23 +1014,18 @@ public class FrPc extends javax.swing.JFrame {
             } catch (Exception ex) {
                 //                Logger.getLogger(FrManteLogin.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(null, ex.getMessage());
-                //                Log.log(ex.getMessage());
-                //                log.fatal(ex.getMessage());
+                Log.log(ex.getMessage());
+//                log.fatal(ex.getMessage());
             }
         }
     }//GEN-LAST:event_jTable1MouseClicked
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        new FrUpdate().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
         URL url=null;
         try {
-            url = new URL("https://marchelo1989.github.io/");
+            URI uri = URI.create("https://marchelobm.github.io/");
+            url = uri.toURL();
             try {
                 Desktop.getDesktop().browse(url.toURI());
             } catch (IOException e) {
@@ -1035,7 +1045,8 @@ public class FrPc extends javax.swing.JFrame {
         // TODO add your handling code here:
         URL url=null;
         try {
-            url = new URL("https://api.whatsapp.com/send?phone=+56920473627");
+            URI uri = URI.create("https://api.whatsapp.com/send?phone=+56920473627");
+            url = uri.toURL();
             try {
                 Desktop.getDesktop().browse(url.toURI());
             } catch (IOException e) {
@@ -1142,7 +1153,6 @@ public class FrPc extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;

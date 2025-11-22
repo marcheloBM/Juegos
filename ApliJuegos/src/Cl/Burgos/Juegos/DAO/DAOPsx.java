@@ -7,6 +7,7 @@ package Cl.Burgos.Juegos.DAO;
 
 import Cl.Burgos.Juegos.BD.BD;
 import Cl.Burgos.Juegos.ENT.ClPsx;
+import Cl.Burgos.Juegos.FUN.Log;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.font.PdfFont;
@@ -22,6 +23,8 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -58,6 +61,8 @@ public class DAOPsx {
             ps.execute();
             return true;
         }catch(Exception ex){
+            Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
             System.out.println(ex.getMessage());
             return false;
         }
@@ -97,6 +102,8 @@ public class DAOPsx {
             ps.executeUpdate();
             return true;
         }catch(Exception ex){
+            Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
             System.out.println(ex.getMessage());
             return false;
         }
@@ -113,8 +120,8 @@ public class DAOPsx {
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
 //            log.info(ex.getMessage());
         }
         return false;
@@ -136,11 +143,11 @@ public class DAOPsx {
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return lista;
     }
@@ -161,11 +168,11 @@ public class DAOPsx {
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return lista;
     }
@@ -196,11 +203,11 @@ public class DAOPsx {
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return lista;
     }
@@ -218,11 +225,11 @@ public class DAOPsx {
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return num;
     }
@@ -240,11 +247,11 @@ public class DAOPsx {
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return num;
     }
@@ -288,8 +295,23 @@ public class DAOPsx {
                 tabla1.addCell(lista.get(i).getIdiomas());
                 tabla1.addCell(Integer.toString(lista.get(i).getJugadores()));
                 tabla1.addCell(lista.get(i).getDisco());
-                Image img = new Image(ImageDataFactory.create(lista.get(i).getImagen()));
-                img.scaleToFit(60, 60);
+                Image img;
+                if(lista.get(i).getImagen() != null){
+                    img = new Image(ImageDataFactory.create(lista.get(i).getImagen()));
+                    img.scaleToFit(60, 60);
+                }else{
+                    // Imagen por defecto desde archivo local
+                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
+                    try {
+                        byte[] bytes = Files.readAllBytes(Paths.get(ruta));
+                        img = new Image(ImageDataFactory.create(bytes));
+                        img.scaleToFit(60, 60);
+                    } catch (IOException e) {
+                        System.err.println("No se pudo cargar la imagen por defecto: " + e.getMessage());
+                        Log.log("No se pudo cargar la imagen por defecto: " + e.getMessage());
+                        img = null; // o puedes usar una imagen vacía si lo prefieres
+                    }
+                }
                 tabla1.addCell(img);
                 
             }
@@ -308,6 +330,7 @@ public class DAOPsx {
             
         } catch (IOException ex) {
             Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }finally{
             try {
                 JOptionPane.showMessageDialog(null, "Archivo Creado");
@@ -315,6 +338,7 @@ public class DAOPsx {
                 Desktop.getDesktop().open(objetofile);
             } catch (IOException ex) {
                 Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+                Log.log(ex.getMessage());
             }
                 
             }

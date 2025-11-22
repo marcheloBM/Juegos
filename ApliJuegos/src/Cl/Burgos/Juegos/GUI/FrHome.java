@@ -5,13 +5,13 @@
  */
 package Cl.Burgos.Juegos.GUI;
 
-import Cl.Burgos.Juegos.FUN.Actualizacion;
 import Cl.Burgos.Juegos.FUN.Confi;
 import Cl.Burgos.Juegos.FUN.Log;
 import Cl.Burgos.Juegos.Main.ApliJuegos;
 import java.awt.Desktop;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import javax.swing.ImageIcon;
@@ -66,7 +66,6 @@ public class FrHome extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -132,17 +131,6 @@ public class FrHome extends javax.swing.JFrame {
 
         jMenu2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jMenu2.setText("Ayuda");
-
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_MASK));
-        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Update.png"))); // NOI18N
-        jMenuItem1.setText("Actualizacion");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(jMenuItem1);
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Ayuda.png"))); // NOI18N
         jMenu3.setText("Contacto");
@@ -265,37 +253,12 @@ public class FrHome extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        new FrUpdate().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-        URL url=null;
-        try {
-            url = new URL("https://marchelo1989.github.io/");
-            try {
-                Desktop.getDesktop().browse(url.toURI());
-            } catch (IOException e) {
-                Log.log("Error en Clase FrContacto: "+e.getMessage());
-                e.printStackTrace();
-            } catch (URISyntaxException e) {
-                Log.log("Error en Clase FrContacto: "+e.getMessage());
-                e.printStackTrace();
-            }
-        } catch (MalformedURLException e1) {
-            Log.log("Error en Clase FrContacto: "+e1.getMessage());
-            e1.printStackTrace();
-        }
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
         URL url=null;
         try {
-            url = new URL("https://api.whatsapp.com/send?phone=+56920473627");
+            URI uri = URI.create("https://api.whatsapp.com/send?phone=+56920473627");
+            url = uri.toURL();
             try {
                 Desktop.getDesktop().browse(url.toURI());
             } catch (IOException e) {
@@ -310,6 +273,27 @@ public class FrHome extends javax.swing.JFrame {
             e1.printStackTrace();
         }
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        URL url=null;
+        try {
+            URI uri = URI.create("https://marchelobm.github.io/");
+            url = uri.toURL();
+            try {
+                Desktop.getDesktop().browse(url.toURI());
+            } catch (IOException e) {
+                Log.log("Error en Clase FrContacto: "+e.getMessage());
+                e.printStackTrace();
+            } catch (URISyntaxException e) {
+                Log.log("Error en Clase FrContacto: "+e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (MalformedURLException e1) {
+            Log.log("Error en Clase FrContacto: "+e1.getMessage());
+            e1.printStackTrace();
+        }
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -358,7 +342,6 @@ public class FrHome extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     // End of variables declaration//GEN-END:variables

@@ -29,15 +29,18 @@ public class BD {
 //    private static String myDriver = DriverBD;
 //    private static String myDriver = "com.mysql.jdbc.Driver";
 //    private static String myDriver = "oracle.jdbc.OracleDriver";
-    private static String myDriver = "net.ucanaccess.jdbc.UcanaccessDriver";
-    
+//    private static String myDriver = "net.ucanaccess.jdbc.UcanaccessDriver";
+    private static String myDriver = "org.sqlite.JDBC";
+
     //En el mismo Sistema
 //    private static String myUrl = "jdbc:mysql://"+ip+":"+puerto+"/"+BaseDatos;String user=userBD;String clave=passBD;
     //En el servidor windows 2012
-    private static String myUrl = "jdbc:ucanaccess://./Juegos.accdb;jackcessOpener=Cl.Burgos.Juegos.BD.CryptCodecOpener";String user="sa";String clave="HP2117la";
+//    private static String myUrl = "jdbc:ucanaccess://./Juegos.accdb;jackcessOpener=Cl.Burgos.Juegos.BD.CryptCodecOpener";String user="sa";String clave="HP2117la";
     //En el Notebook Windows 7
 //    private static String myUrl = "jdbc:mysql://192.168.1.83:3306/reparacion";String user="marchelo";String clave="HP2117la";
-    
+    //En sqlite
+    private static String myUrl = "jdbc:sqlite:Juegos.sqlite";String user="";String clave="";
+
     private Connection cnn;
     
     //Variables del Log4j

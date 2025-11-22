@@ -23,6 +23,8 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,7 +42,7 @@ import javax.swing.JOptionPane;
 public class DAOPs3 {
     public boolean sqlInsert(ClPs3 ps3) {
         Connection con = BD.getInstance().conectar();
-        String insert = "insert into ps3(codigo,nombre,region,lenguaje,jugadores,disco,update,dlc,imagen) values (?,?,?,?,?,?,?,?,?)";
+        String insert = "insert into ps3(codigo,nombre,region,lenguaje,jugadores,disco,actualizacion,dlc,imagen) values (?,?,?,?,?,?,?,?,?)";
         FileInputStream fi = null;
         PreparedStatement ps = null;
         try{
@@ -62,6 +64,7 @@ public class DAOPs3 {
             ps.execute();
             return true;
         }catch(Exception ex){
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
             return false;
         }
@@ -69,8 +72,8 @@ public class DAOPs3 {
     
     public boolean sqlUpdate(ClPs3 clPs3){	
         Connection con = BD.getInstance().conectar();
-        String insert = "update ps3 set codigo=?, nombre=?, region=?, lenguaje=?, jugadores=?, disco=?,update=?, dlc=?, imagen=? where IdPs3=?;";
-        String insert2 = "update ps3 set codigo=?, nombre=?, region=?, lenguaje=?, jugadores=?, disco=?, update=?, dlc=? where IdPs3=?;";
+        String insert = "update ps3 set codigo=?, nombre=?, region=?, lenguaje=?, jugadores=?, disco=?,actualizacion=?, dlc=?, imagen=? where IdPs3=?;";
+        String insert2 = "update ps3 set codigo=?, nombre=?, region=?, lenguaje=?, jugadores=?, disco=?, actualizacion=?, dlc=? where IdPs3=?;";
         FileInputStream fi = null;
         PreparedStatement ps = null;
         try{
@@ -105,6 +108,8 @@ public class DAOPs3 {
             ps.executeUpdate();
             return true;
         }catch(Exception ex){
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
             System.out.println(ex.getMessage());
             return false;
         }
@@ -121,8 +126,8 @@ public class DAOPs3 {
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
 //            log.info(ex.getMessage());
         }
         return false;
@@ -132,7 +137,7 @@ public class DAOPs3 {
         List<ClPs3> lista=new ArrayList<>();
         String strConsulta;
         
-        strConsulta="select IdPs3,codigo,nombre,region,lenguaje,jugadores,disco,update,dlc,imagen from ps3 order by nombre asc;";
+        strConsulta="select IdPs3,codigo,nombre,region,lenguaje,jugadores,disco,actualizacion,dlc,imagen from ps3 order by nombre asc;";
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);
@@ -140,16 +145,16 @@ public class DAOPs3 {
          while(rs.next()){
              ClPs3 c = new ClPs3(rs.getInt("IdPs3"), rs.getString("codigo"), rs.getString("nombre"), 
                      rs.getString("region"), rs.getString("lenguaje"), rs.getInt("jugadores"), rs.getString("disco"), 
-                     rs.getBoolean("update"), rs.getBoolean("dlc"),rs.getBytes("imagen"));
+                     rs.getBoolean("actualizacion"), rs.getBoolean("dlc"),rs.getBytes("imagen"));
               lista.add(c);
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return lista;
     }
@@ -168,7 +173,7 @@ public class DAOPs3 {
         if(clPs3.getCodigo().length()>1 && clPs3.getNombre().length()>1){
             resp="codigo='"+clPs3.getCodigo()+"' and nombre like '%"+clPs3.getNombre()+"%'";
         }
-        strConsulta="select IdPs3,codigo,nombre,region,lenguaje,jugadores,disco,update,dlc,imagen from ps3 where "+resp+" order by nombre asc";
+        strConsulta="select IdPs3,codigo,nombre,region,lenguaje,jugadores,disco,actualizacion,dlc,imagen from ps3 where "+resp+" order by nombre asc";
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);
@@ -176,16 +181,16 @@ public class DAOPs3 {
          while(rs.next()){
              ClPs3 c = new ClPs3(rs.getInt("IdPs3"), rs.getString("codigo"), rs.getString("nombre"), 
                      rs.getString("region"), rs.getString("lenguaje"), rs.getInt("jugadores"), rs.getString("disco"),
-                     rs.getBoolean("update"), rs.getBoolean("dlc"),rs.getBytes("imagen"));
+                     rs.getBoolean("actualizacion"), rs.getBoolean("dlc"),rs.getBytes("imagen"));
               lista.add(c);
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return lista;
     }
@@ -194,7 +199,7 @@ public class DAOPs3 {
         List<ClPs3> lista=new ArrayList<>();
         String strConsulta;
         
-        strConsulta="select IdPs3,codigo,nombre,region,lenguaje,jugadores,disco,update,dlc,imagen from ps3 where IdPs3="+clPs3.getId();
+        strConsulta="select IdPs3,codigo,nombre,region,lenguaje,jugadores,disco,actualizacion,dlc,imagen from ps3 where IdPs3="+clPs3.getId();
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);
@@ -202,16 +207,16 @@ public class DAOPs3 {
          while(rs.next()){
              ClPs3 c = new ClPs3(rs.getInt("IdPs3"), rs.getString("codigo"), rs.getString("nombre"), 
                      rs.getString("region"), rs.getString("lenguaje"), rs.getInt("jugadores"), rs.getString("disco"), 
-                     rs.getBoolean("update"), rs.getBoolean("dlc"),rs.getBytes("imagen"));
+                     rs.getBoolean("actualizacion"), rs.getBoolean("dlc"),rs.getBytes("imagen"));
               lista.add(c);
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return lista;
     }
@@ -229,11 +234,11 @@ public class DAOPs3 {
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return num;
     }
@@ -251,11 +256,11 @@ public class DAOPs3 {
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return num;
     }
@@ -303,8 +308,23 @@ public class DAOPs3 {
                 tabla1.addCell(lista.get(i).getDisco());
                 tabla1.addCell(siyno(lista.get(i).isUpdate()));
                 tabla1.addCell(siyno(lista.get(i).isDlc()));
-                Image img = new Image(ImageDataFactory.create(lista.get(i).getImagen()));
-                img.scaleToFit(60, 60);
+                Image img;
+                if(lista.get(i).getImagen() != null){
+                    img = new Image(ImageDataFactory.create(lista.get(i).getImagen()));
+                    img.scaleToFit(60, 60);
+                }else{
+                    // Imagen por defecto desde archivo local
+                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
+                    try {
+                        byte[] bytes = Files.readAllBytes(Paths.get(ruta));
+                        img = new Image(ImageDataFactory.create(bytes));
+                        img.scaleToFit(60, 60);
+                    } catch (IOException e) {
+                        System.err.println("No se pudo cargar la imagen por defecto: " + e.getMessage());
+                        Log.log("No se pudo cargar la imagen por defecto: " + e.getMessage());
+                        img = null; // o puedes usar una imagen vacía si lo prefieres
+                    }
+                }
                 tabla1.addCell(img);
                 
             }
@@ -322,14 +342,16 @@ public class DAOPs3 {
             doc.close();
             
         } catch (IOException ex) {
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }finally{
             try {
                 JOptionPane.showMessageDialog(null, "Archivo Creado");
                 File objetofile = new File (dest+"./"+nombreArc+".pdf");
                 Desktop.getDesktop().open(objetofile);
             } catch (IOException ex) {
-                Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DAOPs3.class.getName()).log(Level.SEVERE, null, ex);
+                Log.log(ex.getMessage());
             }
                 
             }

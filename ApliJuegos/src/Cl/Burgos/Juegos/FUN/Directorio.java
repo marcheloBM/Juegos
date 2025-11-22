@@ -27,7 +27,7 @@ public class Directorio {
     static String userDir = System.getProperty("user.home");
     
 //    static String Url = "F:\\";
-    static String Url=ApliJuegos.Url;
+    static String Url=Confi.Url;
     static String carpeta1 = "IMG";
     static String carpeta2 = "PSX";
     static String carpeta3 = "PS2";
@@ -138,6 +138,15 @@ public class Directorio {
             Desktop.getDesktop().open(directorio);
         }else{
             File directorio = new File(userDir +"/"+ carpeta2 );
+            Desktop.getDesktop().open(directorio);
+        }
+    }
+    public static void abrirDirecPri() throws IOException{
+        if(SO.startsWith("Windows")){
+            File directorio = new File(Url);
+            Desktop.getDesktop().open(directorio);
+        }else{
+            File directorio = new File(userDir );
             Desktop.getDesktop().open(directorio);
         }
     }

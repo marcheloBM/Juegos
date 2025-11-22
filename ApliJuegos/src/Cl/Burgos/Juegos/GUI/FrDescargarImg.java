@@ -17,6 +17,7 @@ import Cl.Burgos.Juegos.ENT.ClPs3;
 import Cl.Burgos.Juegos.ENT.ClPs4;
 import Cl.Burgos.Juegos.ENT.ClPsp;
 import Cl.Burgos.Juegos.ENT.ClPsx;
+import Cl.Burgos.Juegos.FUN.Confi;
 import Cl.Burgos.Juegos.FUN.DescargarIMGAll;
 import Cl.Burgos.Juegos.FUN.Directorio;
 import static Cl.Burgos.Juegos.FUN.Directorio.selecDirectrorio;
@@ -124,8 +125,9 @@ public class FrDescargarImg extends javax.swing.JFrame {
         cantPS2=dAOPs2.CuantosTotal();
         cantPSP=dAOPsp.CuantosTotal();
         cantPS3=dAOPs3.CuantosTotal();
+        cantPS4=dAOPs4.CuantosTotal();
         cantPC=dAOPc.CuantosTotal();
-        int resp = cantPSX+cantPS2+cantPSP+cantPS3+cantPC;
+        int resp = cantPSX+cantPS2+cantPSP+cantPS3+cantPS4+cantPC;
         return resp;
     }
     /**
@@ -837,7 +839,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         BarraProgreso(0, 0, cantPC, 10);
-        String url=ApliJuegos.Url;
+        String url=Confi.Url;
         String nombreArchivo="Juegos PSX";
         new DAOPsx().CrearTablaPDFPSX(url,nombreArchivo);
     }//GEN-LAST:event_jButton7ActionPerformed
@@ -845,7 +847,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
         BarraProgreso(0, 0, cantPC, 10);
-        String url=ApliJuegos.Url;
+        String url=Confi.Url;
         String nombreArchivo="Juegos PS2";
         new DAOPs2().CrearTablaPDFPS2(url,nombreArchivo);
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -853,7 +855,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
         BarraProgreso(0, 0, cantPC, 10);
-        String url=ApliJuegos.Url;
+        String url=Confi.Url;
         String nombreArchivo="Juegos PSP";
         new DAOPsp().CrearTablaPDFPSP(url,nombreArchivo);
     }//GEN-LAST:event_jButton9ActionPerformed
@@ -861,7 +863,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
         BarraProgreso(0, 0, cantPC, 10);
-        String url=ApliJuegos.Url;
+        String url=Confi.Url;
         String nombreArchivo="Juegos PS3";
         new DAOPs3().CrearTablaPDFPS3(url,nombreArchivo);
     }//GEN-LAST:event_jButton10ActionPerformed
@@ -869,7 +871,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
         BarraProgreso(0, 0, cantPC, 10);
-        String url=ApliJuegos.Url;
+        String url=Confi.Url;
         String nombreArchivo="Juegos PC";
         new DAOPc().CrearTablaPDFPC(url,nombreArchivo);
     }//GEN-LAST:event_jButton11ActionPerformed
@@ -917,7 +919,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
         // TODO add your handling code here:
         BarraProgreso(0, 0, cantPC, 10);
-        String url=ApliJuegos.Url;
+        String url=Confi.Url;
         String nombreArchivo="Juegos PS4";
         new DAOPs4().CrearTablaPDFPS4(url,nombreArchivo);
     }//GEN-LAST:event_jButton14ActionPerformed

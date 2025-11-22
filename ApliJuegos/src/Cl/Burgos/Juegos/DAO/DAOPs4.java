@@ -24,6 +24,8 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,7 +43,7 @@ import javax.swing.JOptionPane;
 public class DAOPs4 {
     public boolean sqlInsert(ClPs4 ps4) {
         Connection con = BD.getInstance().conectar();
-        String insert = "insert into ps4(codigo,nombre,region,lenguaje,jugadores,disco,update,patch,dlc,imagen) values (?,?,?,?,?,?,?,?,?,?)";
+        String insert = "insert into ps4(codigo,nombre,region,lenguaje,jugadores,disco,actualizacion,patch,dlc,imagen) values (?,?,?,?,?,?,?,?,?,?)";
         FileInputStream fi = null;
         PreparedStatement ps = null;
         try{
@@ -64,6 +66,7 @@ public class DAOPs4 {
             ps.execute();
             return true;
         }catch(Exception ex){
+            Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
             return false;
         }
@@ -71,8 +74,8 @@ public class DAOPs4 {
     
     public boolean sqlUpdate(ClPs4 clPs4){	
         Connection con = BD.getInstance().conectar();
-        String insert = "update ps4 set codigo=?, nombre=?, region=?, lenguaje=?, jugadores=?, disco=?, imagen=?, update=?, patch=?, dlc=? where IdPs4=?;";
-        String insert2 = "update ps4 set codigo=?, nombre=?, region=?, lenguaje=?, jugadores=?, disco=?, update=?, patch=?, dlc=? where IdPs4=?;";
+        String insert = "update ps4 set codigo=?, nombre=?, region=?, lenguaje=?, jugadores=?, disco=?, imagen=?, actualizacion=?, patch=?, dlc=? where IdPs4=?;";
+        String insert2 = "update ps4 set codigo=?, nombre=?, region=?, lenguaje=?, jugadores=?, disco=?, actualizacion=?, patch=?, dlc=? where IdPs4=?;";
         FileInputStream fi = null;
         PreparedStatement ps = null;
         try{
@@ -109,6 +112,8 @@ public class DAOPs4 {
             ps.executeUpdate();
             return true;
         }catch(Exception ex){
+            Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
             System.out.println(ex.getMessage());
             return false;
         }
@@ -125,8 +130,8 @@ public class DAOPs4 {
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
 //            log.info(ex.getMessage());
         }
         return false;
@@ -136,7 +141,7 @@ public class DAOPs4 {
         List<ClPs4> lista=new ArrayList<>();
         String strConsulta;
         
-        strConsulta="select IdPs4,codigo,nombre,region,lenguaje,jugadores,disco,update,patch,dlc,imagen from ps4 order by nombre asc;";
+        strConsulta="select IdPs4,codigo,nombre,region,lenguaje,jugadores,disco,actualizacion,patch,dlc,imagen from ps4 order by nombre asc;";
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);
@@ -144,16 +149,16 @@ public class DAOPs4 {
          while(rs.next()){
              ClPs4 c = new ClPs4(rs.getInt("IdPs4"), rs.getString("codigo"), rs.getString("nombre"), 
                      rs.getString("region"), rs.getString("lenguaje"), rs.getInt("jugadores"), rs.getString("disco"), 
-                     rs.getBoolean("update"), rs.getString("patch"), rs.getBoolean("dlc"),rs.getBytes("imagen"));
+                     rs.getBoolean("actualizacion"), rs.getString("patch"), rs.getBoolean("dlc"),rs.getBytes("imagen"));
               lista.add(c);
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return lista;
     }
@@ -172,7 +177,7 @@ public class DAOPs4 {
         if(clPs4.getCodigo().length()>1 && clPs4.getNombre().length()>1){
             resp="codigo='"+clPs4.getCodigo()+"' and nombre like '%"+clPs4.getNombre()+"%'";
         }
-        strConsulta="select IdPs4,codigo,nombre,region,lenguaje,jugadores,disco,update,patch,dlc,imagen from ps4 where "+resp+" order by nombre asc";
+        strConsulta="select IdPs4,codigo,nombre,region,lenguaje,jugadores,disco,actualizacion,patch,dlc,imagen from ps4 where "+resp+" order by nombre asc";
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);
@@ -180,16 +185,16 @@ public class DAOPs4 {
          while(rs.next()){
              ClPs4 c = new ClPs4(rs.getInt("IdPs4"), rs.getString("codigo"), rs.getString("nombre"), 
                      rs.getString("region"), rs.getString("lenguaje"), rs.getInt("jugadores"), rs.getString("disco"),
-                     rs.getBoolean("update"), rs.getString("patch"), rs.getBoolean("dlc"),rs.getBytes("imagen"));
+                     rs.getBoolean("actualizacion"), rs.getString("patch"), rs.getBoolean("dlc"),rs.getBytes("imagen"));
               lista.add(c);
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return lista;
     }
@@ -198,7 +203,7 @@ public class DAOPs4 {
         List<ClPs4> lista=new ArrayList<>();
         String strConsulta;
         
-        strConsulta="select IdPs4,codigo,nombre,region,lenguaje,jugadores,disco,update,patch,dlc,imagen from ps4 where IdPs4="+clPs4.getId();
+        strConsulta="select IdPs4,codigo,nombre,region,lenguaje,jugadores,disco,actualizacion,patch,dlc,imagen from ps4 where IdPs4="+clPs4.getId();
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);
@@ -206,16 +211,16 @@ public class DAOPs4 {
          while(rs.next()){
              ClPs4 c = new ClPs4(rs.getInt("IdPs4"), rs.getString("codigo"), rs.getString("nombre"), 
                      rs.getString("region"), rs.getString("lenguaje"), rs.getInt("jugadores"), rs.getString("disco"), 
-                     rs.getBoolean("update"), rs.getString("patch"), rs.getBoolean("dlc"),rs.getBytes("imagen"));
+                     rs.getBoolean("actualizacion"), rs.getString("patch"), rs.getBoolean("dlc"),rs.getBytes("imagen"));
               lista.add(c);
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return lista;
     }
@@ -233,11 +238,11 @@ public class DAOPs4 {
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return num;
     }
@@ -255,11 +260,11 @@ public class DAOPs4 {
          }
          
         } catch (SQLException ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         } catch (Exception ex) {
-//            Logger.getLogger(DAOLogin.class.getName()).log(Level.SEVERE, null, ex);
-//            Log.log(ex.getMessage());
+            Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }
         return num;
     }
@@ -309,8 +314,23 @@ public class DAOPs4 {
                 tabla1.addCell(siyno(lista.get(i).isUpdate()));
                 tabla1.addCell(lista.get(i).getPatch());
                 tabla1.addCell(siyno(lista.get(i).isDlc()));
-                Image img = new Image(ImageDataFactory.create(lista.get(i).getImagen()));
-                img.scaleToFit(60, 60);
+                Image img;
+                if(lista.get(i).getImagen() != null){
+                    img = new Image(ImageDataFactory.create(lista.get(i).getImagen()));
+                    img.scaleToFit(60, 60);
+                }else{
+                    // Imagen por defecto desde archivo local
+                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
+                    try {
+                        byte[] bytes = Files.readAllBytes(Paths.get(ruta));
+                        img = new Image(ImageDataFactory.create(bytes));
+                        img.scaleToFit(60, 60);
+                    } catch (IOException e) {
+                        System.err.println("No se pudo cargar la imagen por defecto: " + e.getMessage());
+                        Log.log("No se pudo cargar la imagen por defecto: " + e.getMessage());
+                        img = null; // o puedes usar una imagen vacía si lo prefieres
+                    }
+                }
                 tabla1.addCell(img);
                 
             }
@@ -329,13 +349,15 @@ public class DAOPs4 {
             
         } catch (IOException ex) {
             Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
         }finally{
             try {
                 JOptionPane.showMessageDialog(null, "Archivo Creado");
                 File objetofile = new File (dest+"./"+nombreArc+".pdf");
                 Desktop.getDesktop().open(objetofile);
             } catch (IOException ex) {
-                Logger.getLogger(DAOPsx.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DAOPs4.class.getName()).log(Level.SEVERE, null, ex);
+                Log.log(ex.getMessage());
             }
                 
             }
