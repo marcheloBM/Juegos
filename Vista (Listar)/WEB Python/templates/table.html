@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Tabla: {{ table_name }}</h2>
+  <form method="get">
+    <input type="text" name="search" id="searchBox" placeholder="Buscar coincidencias..." value="{{ search }}">
+    <button type="submit">Buscar</button>
+  </form>
+  
+  <div id="paginationTop">
+    {% if page > 1 %}
+      <a href="{{ url_for('show_table', table_name=table_name, page=page-1, search=search) }}">Anterior</a>
+    {% endif %}
+    Página {{ page }} de {{ total_pages }} (Total registros: {{ total }})
+    {% if page < total_pages %}
+      <a href="{{ url_for('show_table', table_name=table_name, page=page+1, search=search) }}">Siguiente</a>
+    {% endif %}
+  </div>
+  
+  <table>
+    <thead>
+      <tr>
+        {% for col in juegos[0].keys() %}
+          <th>{{ col }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tbody>
+      {% for juego in juegos %}
+        <tr>
+          {% for col, val in juego.items() %}
+            {% if col == "imagen" %}
+              <td><img class="thumbnail" src="{{ url_for('static', filename=val) if val.startswith('img/') else val }}" onclick="openModal(this.src)" alt="imagen"></td>
+            {% else %}
+              <td>{{ val }}</td>
+            {% endif %}
+          {% endfor %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <div id="paginationTop">
+    {% if page > 1 %}
+      <a href="{{ url_for('show_table', table_name=table_name, page=page-1, search=search) }}">Anterior</a>
+    {% endif %}
+    Página {{ page }} de {{ total_pages }} (Total registros: {{ total }})
+    {% if page < total_pages %}
+      <a href="{{ url_for('show_table', table_name=table_name, page=page+1, search=search) }}">Siguiente</a>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Tablas disponibles</h2>
+  <ul>
+    {% for table in tables %}
+      <li><a href="{{ url_for('show_table', table_name=table) }}">{{ table }}</a></li>
+    {% endfor %}
+  </ul>
+{% endblock %}

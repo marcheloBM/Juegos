@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Explorador Juegos</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="dark">
+  <h1>Explorador Juegos</h1>
+  <button onclick="toggleTheme()">Cambiar Tema 🌗</button>
+  <div id="buttons"></div>
+  <input type="text" id="searchBox" placeholder="Buscar coincidencias..." oninput="applySearch()" />
+  <div id="paginationTop"></div>
+  <div id="data"></div>
+  <div id="paginationBottom"></div>
+
+  <!-- Modal -->
+  <div id="imgModal" class="modal">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

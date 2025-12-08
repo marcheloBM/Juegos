@@ -1,16 +1,14 @@
 -ApliJuegos
-	v1.0 implementación de clases para el funcionamiento
-	v1.1 Implementación de PDF, crea archivos en PDF sobre los juegos en la BD
-	v1.2 Reparación del directorio predeterminado
-	v1.3 Se le agrego el sistema operativo Windows 2000 a los registros de pc
-	v1.4 Se ha corregido el problema de visualización de la capacidad de video, disco, procesador y RAM
-	v1.5 se ha implementado los campos Update y DLC a la interfaz de PS3 y se a cambiado el campo region para mejor manejo
-	v1.6 cambio de la interfaz de archivos a una pestaña de la misma interfaz cambios en la creación de PDF orden del código de creación de directorios
-	v1.7 Eliminación de la ventana de archivo en la interfaz de PS3 implementación del código de log para registro de errores 
-	v1.8 Se integro al menú principal la opción de descargar imágenes y crear PDF también se implementó en la DAOPS3 el registro Log y cambio en algunas url del programa 
-	v1.8.2 implementación de Nuevo Juegos PS4 boton de PS4 en Home
-	v1.8.3 Integracion de los datos se agrego datos al Excel para Trabajar la BD
-	v1.9 Implementado PS4 Interfaz de PS4 Completa
-	v1.10 Implementación de versiones de update a la interfaz de PS4
-	v1.11 Cambios en la fuente de los PDF y arreglo menor al boton de actualizar en PS4
-	v1.12 Implementación en la interfaz de Update
+	Apache NetBeans
+	
+Vista (Listar)
+-WEB HTML
+	HTML5 + js
+-WEB Java
+	jsp
+-WEB Python
+	HTML + Python
+WEB Service Python
+	HTML + Python
+-WEBMaven
+	jsp con maven 
