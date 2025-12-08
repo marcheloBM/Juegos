@@ -33,7 +33,7 @@ public class FrHome extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null); 
         setResizable(false); 
-        setTitle("Inicio de Juegos");
+        setTitle("Inicio de Juegos Version: "+Confi.versionActual);
         String url="/Cl/Burgos/Juegos/IMG/";
         setIconImage(new ImageIcon(getClass().getResource(url+"Icono.png")).getImage());
         ((JPanel)getContentPane()).setOpaque(false);
@@ -60,12 +60,14 @@ public class FrHome extends javax.swing.JFrame {
         btnPs2 = new javax.swing.JButton();
         btnPsp = new javax.swing.JButton();
         btnPs3 = new javax.swing.JButton();
+        btnPsVita = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -104,6 +106,14 @@ public class FrHome extends javax.swing.JFrame {
             }
         });
 
+        btnPsVita.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnPsVita.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/ICO/ico PSVita.png"))); // NOI18N
+        btnPsVita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPsVitaActionPerformed(evt);
+            }
+        });
+
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/ICO/ico PC.png"))); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -131,6 +141,16 @@ public class FrHome extends javax.swing.JFrame {
 
         jMenu2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jMenu2.setText("Ayuda");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.ALT_DOWN_MASK));
+        jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Update.png"))); // NOI18N
+        jMenuItem1.setText("Actualizacion");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem1);
 
         jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Ayuda.png"))); // NOI18N
         jMenu3.setText("Contacto");
@@ -164,23 +184,24 @@ public class FrHome extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(97, 97, 97)
-                        .addComponent(jButton4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
                         .addComponent(btnPsx)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPs2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnPsp)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnPs3)))
+                        .addComponent(btnPs3))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnPsVita)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -188,15 +209,18 @@ public class FrHome extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnPsx)
-                    .addComponent(btnPs2)
-                    .addComponent(btnPsp)
-                    .addComponent(btnPs3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnPsx)
+                            .addComponent(btnPs2)
+                            .addComponent(btnPs3))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton3)
+                            .addComponent(jButton4)
+                            .addComponent(btnPsVita)
+                            .addComponent(jButton1)))
+                    .addComponent(btnPsp))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -236,7 +260,6 @@ public class FrHome extends javax.swing.JFrame {
         FrPc frPc = new FrPc();
         frPc.setVisible(true);
         this.dispose();
-//        JOptionPane.showMessageDialog(null, "Sin Terminar");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -295,6 +318,17 @@ public class FrHome extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        new GitHubReleaseGUI().main(new String[]{});
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void btnPsVitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPsVitaActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(null, "Sin Terminar");
+    }//GEN-LAST:event_btnPsVitaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -333,6 +367,7 @@ public class FrHome extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnPs2;
     private javax.swing.JButton btnPs3;
+    private javax.swing.JButton btnPsVita;
     private javax.swing.JButton btnPsp;
     private javax.swing.JButton btnPsx;
     private javax.swing.JButton jButton1;
@@ -342,6 +377,7 @@ public class FrHome extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     // End of variables declaration//GEN-END:variables
