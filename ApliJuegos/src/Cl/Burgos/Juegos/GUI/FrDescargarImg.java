@@ -5,18 +5,8 @@
  */
 package Cl.Burgos.Juegos.GUI;
 
-import Cl.Burgos.Juegos.DAO.DAOPc;
-import Cl.Burgos.Juegos.DAO.DAOPs2;
-import Cl.Burgos.Juegos.DAO.DAOPs3;
-import Cl.Burgos.Juegos.DAO.DAOPs4;
-import Cl.Burgos.Juegos.DAO.DAOPsp;
-import Cl.Burgos.Juegos.DAO.DAOPsx;
-import Cl.Burgos.Juegos.ENT.ClPc;
-import Cl.Burgos.Juegos.ENT.ClPs2;
-import Cl.Burgos.Juegos.ENT.ClPs3;
-import Cl.Burgos.Juegos.ENT.ClPs4;
-import Cl.Burgos.Juegos.ENT.ClPsp;
-import Cl.Burgos.Juegos.ENT.ClPsx;
+import Cl.Burgos.Juegos.DAO.*;
+import Cl.Burgos.Juegos.ENT.*;
 import Cl.Burgos.Juegos.FUN.Confi;
 import Cl.Burgos.Juegos.FUN.DescargarIMGAll;
 import Cl.Burgos.Juegos.FUN.Directorio;
@@ -50,16 +40,17 @@ import javax.swing.JPanel;
  */
 public class FrDescargarImg extends javax.swing.JFrame {
 
-    DescargarIMGAll all = new DescargarIMGAll();
+//    DescargarIMGAll all = new DescargarIMGAll();
     DAOPsx dAOPsx = new DAOPsx();
     DAOPs2 dAOPs2 = new DAOPs2();
     DAOPsp dAOPsp = new DAOPsp();
     DAOPs3 dAOPs3 = new DAOPs3();
     DAOPs4 dAOPs4 = new DAOPs4();
     DAOPc dAOPc = new DAOPc();
+    DAOPsvita dAOPsvita = new DAOPsvita();
 //    String url = ApliJuegos.Url+"\\IMG\\";
     String url;
-    int cantPSX,cantPS2,cantPSP,cantPS3,cantPS4,cantPC,All;
+    int cantPSX,cantPS2,cantPSP,cantPS3,cantPS4,cantPC,cantPSVita,All;
     static String carpeta1 = "IMG";
     static String carpeta2 = "PSX";
     static String carpeta3 = "PS2";
@@ -67,6 +58,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
     static String carpeta5 = "PS3";
     static String carpeta6 = "PC";
     static String carpeta7 = "PS4";
+    static String carpeta8 = "PSVita";
     /**
      * Creates new form FrDescargarImg
      */
@@ -97,6 +89,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
         TotalPS3.setText("Total "+cantPS3);
         TotalPS4.setText("Total "+cantPS4);
         TotalPC.setText("Total "+cantPC);
+        TotalPSVita.setText("Total "+cantPSVita);
         TotalAll.setText("Total "+All);
     }
 
@@ -108,6 +101,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
         crearDirec(url+"/"+carpeta1, carpeta5);
         crearDirec(url+"/"+carpeta1, carpeta6);
         crearDirec(url+"/"+carpeta1, carpeta7);
+        crearDirec(url+"/"+carpeta1, carpeta8);
     }
     public static void crearDirec(String url,String carpeta){
         File directorio = new File(url +"/"+ carpeta );
@@ -127,7 +121,8 @@ public class FrDescargarImg extends javax.swing.JFrame {
         cantPS3=dAOPs3.CuantosTotal();
         cantPS4=dAOPs4.CuantosTotal();
         cantPC=dAOPc.CuantosTotal();
-        int resp = cantPSX+cantPS2+cantPSP+cantPS3+cantPS4+cantPC;
+        cantPSVita=dAOPsvita.CuantosTotal();
+        int resp = cantPSX+cantPS2+cantPSP+cantPS3+cantPS4+cantPSVita+cantPC;
         return resp;
     }
     /**
@@ -176,8 +171,16 @@ public class FrDescargarImg extends javax.swing.JFrame {
         TotalPS4 = new javax.swing.JLabel();
         DescargaPS4 = new javax.swing.JLabel();
         jButton14 = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        jButton15 = new javax.swing.JButton();
+        TotalPSVita = new javax.swing.JLabel();
+        DescargaPSVita = new javax.swing.JLabel();
+        jButton16 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(600, 400));
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(600, 400));
 
         jButton1.setText("Descargar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -342,6 +345,29 @@ public class FrDescargarImg extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel9.setText("Imagenes de PSVita:");
+
+        jButton15.setText("Descargar");
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton15ActionPerformed(evt);
+            }
+        });
+
+        TotalPSVita.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        TotalPSVita.setText("Total ");
+
+        DescargaPSVita.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        DescargaPSVita.setText("Descargados");
+
+        jButton16.setText("Crear PDF PSVita");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -352,62 +378,75 @@ public class FrDescargarImg extends javax.swing.JFrame {
                     .addComponent(jProgressBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel7)
-                            .addComponent(jLabel8))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jButton6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(TotalPC))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton5)
-                                    .addComponent(jButton4)
-                                    .addComponent(jButton3)
-                                    .addComponent(jButton2)
-                                    .addComponent(jButton1)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel8))
+                                .addGap(28, 28, 28)
+                                .addComponent(jButton12))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jButton12))
-                                    .addComponent(jButton13))
-                                .addGap(34, 34, 34)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(TotalAll, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(TotalPS3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(TotalPS4, javax.swing.GroupLayout.Alignment.TRAILING))
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(TotalPSX)
-                                        .addComponent(TotalPS2, javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(TotalPSP, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                                        .addComponent(jButton4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(TotalPS3))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jButton13)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(TotalPS4))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jButton6)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(TotalPC))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jButton5)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(TotalAll))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jButton1)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(TotalPSX))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jButton2)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(TotalPS2))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jButton3)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(TotalPSP))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jButton15)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(TotalPSVita)))))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(30, 30, 30)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(DescargaPSX)
                                     .addComponent(DescargaPS2)
                                     .addComponent(DescargaPSP)
+                                    .addComponent(DescargaPSVita)
                                     .addComponent(DescargaPS3)
-                                    .addComponent(DescargaAll)
-                                    .addComponent(DescargaPS4)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(24, 24, 24)
-                                .addComponent(DescargaPC)))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton7)
-                            .addComponent(jButton8)
-                            .addComponent(jButton9)
-                            .addComponent(jButton10)
-                            .addComponent(jButton11)
-                            .addComponent(jButton14))
-                        .addGap(0, 84, Short.MAX_VALUE)))
+                                    .addComponent(DescargaPS4)
+                                    .addComponent(DescargaPC))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton14)
+                                    .addComponent(jButton11)
+                                    .addComponent(jButton10)
+                                    .addComponent(jButton16)
+                                    .addComponent(jButton9)
+                                    .addComponent(jButton8)
+                                    .addComponent(jButton7)))
+                            .addComponent(DescargaAll))
+                        .addGap(0, 22, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -434,6 +473,13 @@ public class FrDescargarImg extends javax.swing.JFrame {
                     .addComponent(TotalPSP)
                     .addComponent(DescargaPSP)
                     .addComponent(jButton9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jButton15)
+                    .addComponent(TotalPSVita)
+                    .addComponent(DescargaPSVita)
+                    .addComponent(jButton16))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -472,11 +518,11 @@ public class FrDescargarImg extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
         );
 
         pack();
@@ -924,6 +970,48 @@ public class FrDescargarImg extends javax.swing.JFrame {
         new DAOPs4().CrearTablaPDFPS4(url,nombreArchivo);
     }//GEN-LAST:event_jButton14ActionPerformed
 
+    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
+        // TODO add your handling code here:
+        BarraProgreso(0, 0, cantPSVita, 10);
+        DAOPsvita dAOPsvita = new DAOPsvita();
+        String nombre = null;
+        Image img = null;
+        int numPSP=0;
+        try {
+            List<ClPsvita> datosCliente = dAOPsvita.leerPsvita();
+            
+            for (int i = 0; i < datosCliente.size(); i++) {
+//                id = Integer.parseInt(String.valueOf(datosCliente.get(i).getId()));
+//                nombre=datosCliente.get(i).getCodigo()+"-"+datosCliente.get(i).getNombre()+".png";
+                numPSP=i;
+                nombre = datosCliente.get(i).getCodigo() + ".jpg";
+                byte[] bi = datosCliente.get(i).getImagen();
+                BufferedImage image = null;
+                InputStream in = new ByteArrayInputStream(bi);
+                image = ImageIO.read(in);
+                img = image;
+                String aux = nombre;
+                StringTokenizer token = new StringTokenizer(aux, ".");
+                token.nextToken();
+                String formato = token.nextToken();
+                ImageIO.write((RenderedImage) img, formato, new File(url+"PSVita" + "\\" + nombre));
+            }
+            DescargaPSP.setText("Descargados "+Integer.toString(numPSP+1));
+            JOptionPane.showMessageDialog(null, "Total De Juegos PSVita descargados "+Integer.toString(numPSP+1));
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+//                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton15ActionPerformed
+
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        // TODO add your handling code here:
+        BarraProgreso(0, 0, cantPSVita, 10);
+        String url=Confi.Url;
+        String nombreArchivo="Juegos PSVita";
+        new DAOPsvita().CrearTablaPDFPSvita(url,nombreArchivo);
+    }//GEN-LAST:event_jButton16ActionPerformed
+
     public void BarraProgreso(int inicio,int minimo,int maximo,int retraso){
         jProgressBar1.setValue(inicio);
         jProgressBar1.setMaximum(minimo);
@@ -977,6 +1065,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
     private javax.swing.JLabel DescargaPS3;
     private javax.swing.JLabel DescargaPS4;
     private javax.swing.JLabel DescargaPSP;
+    private javax.swing.JLabel DescargaPSVita;
     private javax.swing.JLabel DescargaPSX;
     private javax.swing.JLabel TotalAll;
     private javax.swing.JLabel TotalPC;
@@ -984,6 +1073,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
     private javax.swing.JLabel TotalPS3;
     private javax.swing.JLabel TotalPS4;
     private javax.swing.JLabel TotalPSP;
+    private javax.swing.JLabel TotalPSVita;
     private javax.swing.JLabel TotalPSX;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
@@ -991,6 +1081,8 @@ public class FrDescargarImg extends javax.swing.JFrame {
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
+    private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1006,6 +1098,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JProgressBar jProgressBar1;
     // End of variables declaration//GEN-END:variables

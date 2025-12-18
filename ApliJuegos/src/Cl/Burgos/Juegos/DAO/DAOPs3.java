@@ -224,7 +224,7 @@ public class DAOPs3 {
     public int Cuantos() {
         String strConsulta;
         int num = 0;
-        strConsulta="select count(*) as cuantos from ps3 where codigo LIKE 'SCP3*';";
+        strConsulta="select count(*) as cuantos from ps3 where codigo LIKE 'SCP3%';";
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);

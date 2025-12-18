@@ -216,7 +216,7 @@ public class DAOPsp {
     public int Cuantos() {
         String strConsulta;
         int num = 0;
-        strConsulta="select count(*) as cuantos from psp where codigo LIKE 'SCPP*';";
+        strConsulta="select count(*) as cuantos from psp where codigo LIKE 'SCPP%';";
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);

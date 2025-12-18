@@ -41,7 +41,7 @@ public class DBSetup {
     }
 
     private static boolean tablasExistentes(Connection conn) throws SQLException {
-        String[] tablas = { "ps3", "ps2", "ps4", "psp", "psx", "pc" };
+        String[] tablas = { "ps3", "ps2", "ps4", "psp", "psx", "pc", "psvita" };
         DatabaseMetaData meta = conn.getMetaData();
         for (String tabla : tablas) {
             try (ResultSet rs = meta.getTables(null, null, tabla, null)) {

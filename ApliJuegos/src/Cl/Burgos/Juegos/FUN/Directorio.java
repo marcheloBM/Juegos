@@ -35,6 +35,7 @@ public class Directorio {
     static String carpeta5 = "PS3";
     static String carpeta6 = "PC";
     static String carpeta7 = "PS4";
+    static String carpeta8 = "PSVita";
     
     public static String selecDirectrorio(){
         JFileChooser fileChooser = new JFileChooser("F:\\");
@@ -58,6 +59,7 @@ public class Directorio {
         crearDirec(Url+"/"+carpeta1, carpeta5);
         crearDirec(Url+"/"+carpeta1, carpeta6);
         crearDirec(Url+"/"+carpeta1, carpeta7);
+        crearDirec(Url+"/"+carpeta1, carpeta8);
     }
     public static void crearDirec(String url,String carpeta){
         File directorio = new File(url +"/"+ carpeta );
@@ -129,6 +131,15 @@ public class Directorio {
             directorio.mkdir(); 
         }else{
             File directorio = new File(Url +"/"+ carpeta1 +"/"+ carpeta7 ); 
+            directorio.mkdir();
+        } 
+    }
+    public static void crearDirecPSVita(){
+        if(SO.startsWith("Windows")){
+            File directorio = new File(Url +"/"+ carpeta1 +"/"+ carpeta8 ); 
+            directorio.mkdir(); 
+        }else{
+            File directorio = new File(Url +"/"+ carpeta1 +"/"+ carpeta8 ); 
             directorio.mkdir();
         } 
     }

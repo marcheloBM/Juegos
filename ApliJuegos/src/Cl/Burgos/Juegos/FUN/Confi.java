@@ -18,5 +18,5 @@ public interface Confi {
     
     //Configuracion Nuevo Update
     static String repositorio = "https://github.com/marcheloBM/Juegos";
-    static String versionActual = "1.14";
+    static String versionActual = "1.15";
 }

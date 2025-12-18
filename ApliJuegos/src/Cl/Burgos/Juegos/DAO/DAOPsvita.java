@@ -1,12 +1,11 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package Cl.Burgos.Juegos.DAO;
 
 import Cl.Burgos.Juegos.BD.BD;
-import Cl.Burgos.Juegos.ENT.ClPs2;
+import Cl.Burgos.Juegos.ENT.ClPsvita;
 import Cl.Burgos.Juegos.FUN.Log;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -37,177 +36,187 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Marchelo
+ * @author march
  */
-public class DAOPs2 {
-    public boolean sqlInsert(ClPs2 ps2) {
+public class DAOPsvita {
+    public boolean sqlInsert(ClPsvita clPsvita) {
         Connection con = BD.getInstance().conectar();
-        String insert = "insert into ps2(codigo,nombre,region,lenguaje,jugadores,disco,imagen) values (?,?,?,?,?,?,?)";
+        String insert = "insert into psvita(codigo,nombre,region,disco,actualizacion,dlc,formato,tipoJuego,imagen) values (?,?,?,?,?,?,?,?,?)";
         FileInputStream fi = null;
         PreparedStatement ps = null;
         try{
-            File file = new File(ps2.getRuta());
-            fi = new FileInputStream(file);
             
+            File file = new File(clPsvita.getRuta());
+            fi = new FileInputStream(file);
+
             ps = con.prepareStatement(insert);
-            ps.setString(1, ps2.getCodigo());
-            ps.setString(2, ps2.getNombre());
-            ps.setString(3, ps2.getRegion());
-            ps.setString(4, ps2.getIdiomas());
-            ps.setInt(5, ps2.getJugadores());
-            ps.setString(6, ps2.getDisco());
-            ps.setBinaryStream(7, fi);
+            ps.setString(1, clPsvita.getCodigo());
+            ps.setString(2, clPsvita.getNombre());
+            ps.setString(3, clPsvita.getRegion());
+            ps.setString(4, clPsvita.getDisco());
+            ps.setString(5, clPsvita.getUpdate());
+            ps.setBoolean(6, clPsvita.isDlc());
+            ps.setString(7, clPsvita.getFormato());
+            ps.setString(8, clPsvita.getTipoJuego());
+            
+            ps.setBinaryStream(9, fi);
             
             ps.execute();
             return true;
         }catch(Exception ex){
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
-            System.out.println(ex.getMessage());
             return false;
         }
     }
     
-    public boolean sqlUpdate(ClPs2 clPs2){	
+    public boolean sqlUpdate(ClPsvita clPsvita){	
         Connection con = BD.getInstance().conectar();
-        String insert = "update ps2 set codigo=?, nombre=?, region=?, lenguaje=?, jugadores=?, disco=?, imagen=? where IdPs2=?;";
-        String insert2 = "update ps2 set codigo=?, nombre=?, region=?, lenguaje=?, jugadores=?, disco=? where IdPs2=?;";
+        String insert = "update psvita set codigo=?, nombre=?, region=?, disco=?, actualizacion=?, dlc=?, formato=?, tipoJuego=?, imagen=? where IdPsvita=?;";
+        String insert2 = "update psvita set codigo=?, nombre=?, region=?, disco=?, actualizacion=?, dlc=?, formato=?, tipoJuego=? where IdPsvita=?;";
         FileInputStream fi = null;
         PreparedStatement ps = null;
         try{
-            if(clPs2.getRuta().length()!=0){
-                File file = new File(clPs2.getRuta());
+            if(clPsvita.getRuta().length()!=0){
+                File file = new File(clPsvita.getRuta());
                 fi = new FileInputStream(file);
 
                 ps = con.prepareStatement(insert);
-                ps.setString(1, clPs2.getCodigo());
-                ps.setString(2, clPs2.getNombre());
-                ps.setString(3, clPs2.getRegion());
-                ps.setString(4, clPs2.getIdiomas());
-                ps.setInt(5, clPs2.getJugadores());
-                ps.setString(6, clPs2.getDisco());
-                ps.setBinaryStream(7, fi);
-                ps.setInt(8, clPs2.getId());
+                ps.setString(1, clPsvita.getCodigo());
+                ps.setString(2, clPsvita.getNombre());
+                ps.setString(3, clPsvita.getRegion());
+                ps.setString(4, clPsvita.getDisco());
+                ps.setString(5, clPsvita.getUpdate());
+                ps.setBoolean(6, clPsvita.isDlc());
+                ps.setString(7, clPsvita.getFormato());
+                ps.setString(8, clPsvita.getTipoJuego());
+                ps.setBinaryStream(9, fi);
+                ps.setInt(10, clPsvita.getId());
+                
             }else{
                 ps = con.prepareStatement(insert2);
-                ps.setString(1, clPs2.getCodigo());
-                ps.setString(2, clPs2.getNombre());
-                ps.setString(3, clPs2.getRegion());
-                ps.setString(4, clPs2.getIdiomas());
-                ps.setInt(5, clPs2.getJugadores());
-                ps.setString(6, clPs2.getDisco());
-                ps.setInt(7, clPs2.getId());
+                 ps.setString(1, clPsvita.getCodigo());
+                ps.setString(2, clPsvita.getNombre());
+                ps.setString(3, clPsvita.getRegion());
+                ps.setString(4, clPsvita.getDisco());
+                ps.setString(5, clPsvita.getUpdate());
+                ps.setBoolean(6, clPsvita.isDlc());
+                ps.setString(7, clPsvita.getFormato());
+                ps.setString(8, clPsvita.getTipoJuego());
+                ps.setInt(9, clPsvita.getId());
             }
             
             ps.executeUpdate();
             return true;
         }catch(Exception ex){
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
             System.out.println(ex.getMessage());
             return false;
         }
     }
     
-    public boolean sqlDelete(ClPs2 clPs2){
+    public boolean sqlDelete(ClPsvita clPsvita){
         Connection con = BD.getInstance().conectar();
         PreparedStatement ps = null;
-        String stSql =  "delete from ps2 where IdPs2=?;";
+        String stSql =  "delete from psvita where IdPsvita=?;";
         try {
             
              ps = con.prepareStatement(stSql);
-            ps.setInt(1, clPs2.getId());
+            ps.setInt(1, clPsvita.getId());
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
 //            log.info(ex.getMessage());
         }
         return false;
     }
     
-    public List<ClPs2> leerPs2() {
-        List<ClPs2> lista=new ArrayList<>();
+    public List<ClPsvita> leerPsvita() {
+        List<ClPsvita> lista=new ArrayList<>();
         String strConsulta;
         
-        strConsulta="select IdPs2,codigo,nombre,region,lenguaje,jugadores,disco,imagen from ps2 order by nombre asc;";
+        strConsulta="select IdPsvita,codigo,nombre,region,disco,actualizacion,dlc,formato,tipoJuego,imagen from psvita order by nombre asc;";
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);
          if(rs==null)return null;
          while(rs.next()){
-             ClPs2 c = new ClPs2(rs.getInt("IdPs2"), rs.getString("codigo"), rs.getString("nombre"), 
-                     rs.getString("region"), rs.getString("lenguaje"), rs.getInt("jugadores"), rs.getString("disco"), rs.getBytes("imagen"));
+             ClPsvita c = new ClPsvita(rs.getInt("IdPsvita"), rs.getString("codigo"), rs.getString("nombre"), 
+                     rs.getString("region"), rs.getString("disco"), rs.getString("actualizacion"), rs.getBoolean("dlc"), 
+                     rs.getString("formato"), rs.getString("tipoJuego"), rs.getBytes("imagen"));
               lista.add(c);
          }
          
         } catch (SQLException ex) {
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
         } catch (Exception ex) {
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
         }
         return lista;
     }
     
-    public List<ClPs2> leerPs22(ClPs2 clPs2) {
-        List<ClPs2> lista=new ArrayList<>();
-        String strConsulta;
-        
-        strConsulta="select IdPs2,codigo,nombre,region,lenguaje,jugadores,disco,imagen from ps2 where IdPs2="+clPs2.getId();
-        
-        try{
-         ResultSet rs=BD.getInstance().sqlSelect(strConsulta);
-         if(rs==null)return null;
-         while(rs.next()){
-             ClPs2 c = new ClPs2(rs.getInt("IdPs2"), rs.getString("codigo"), rs.getString("nombre"), 
-                     rs.getString("region"), rs.getString("lenguaje"), rs.getInt("jugadores"), rs.getString("disco"), rs.getBytes("imagen"));
-              lista.add(c);
-         }
-         
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
-            Log.log(ex.getMessage());
-        } catch (Exception ex) {
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
-            Log.log(ex.getMessage());
-        }
-        return lista;
-    }
-    
-    public List<ClPs2> leerBuscar(ClPs2 clPs2) {
-        List<ClPs2> lista=new ArrayList<>();
+    public List<ClPsvita> leerBuscar(ClPsvita clPsvita) {
+        List<ClPsvita> lista=new ArrayList<>();
         String strConsulta;
         String resp=null;
         
-        if(clPs2.getCodigo().length()>1){
-            resp="codigo='"+clPs2.getCodigo()+"'";
+        if(clPsvita.getCodigo().length()>1){
+            resp="codigo='"+clPsvita.getCodigo()+"'";
         }
-        if(clPs2.getNombre().length()>1){
-            resp="nombre like '%"+clPs2.getNombre()+"%'";
+        if(clPsvita.getNombre().length()>1){
+            resp="nombre like '%"+clPsvita.getNombre()+"%'";
         }
-        if(clPs2.getCodigo().length()>1 && clPs2.getNombre().length()>1){
-            resp="codigo='"+clPs2.getCodigo()+"' and nombre like '%"+clPs2.getNombre()+"%'";
+        if(clPsvita.getCodigo().length()>1 && clPsvita.getNombre().length()>1){
+            resp="codigo='"+clPsvita.getCodigo()+"' and nombre like '%"+clPsvita.getNombre()+"%'";
         }
-        strConsulta="select IdPs2,codigo,nombre,region,lenguaje,jugadores,disco,imagen from ps2 where "+resp+" order by nombre asc";
+        strConsulta="select IdPsvita,codigo,nombre,region,disco,actualizacion,dlc,formato,tipoJuego,imagen from psvita where "+resp+" order by nombre asc";
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);
          if(rs==null)return null;
          while(rs.next()){
-             System.out.println(rs.getString("nombre"));
-             ClPs2 c = new ClPs2(rs.getInt("IdPs2"), rs.getString("codigo"), rs.getString("nombre"), 
-                     rs.getString("region"), rs.getString("lenguaje"), rs.getInt("jugadores"), rs.getString("disco"), rs.getBytes("imagen"));
+             ClPsvita c = new ClPsvita(rs.getInt("IdPsvita"), rs.getString("codigo"), rs.getString("nombre"), 
+                     rs.getString("region"), rs.getString("disco"), rs.getString("actualizacion"), rs.getBoolean("dlc"), 
+                     rs.getString("formato"), rs.getString("tipoJuego"), rs.getBytes("imagen"));
               lista.add(c);
          }
          
         } catch (SQLException ex) {
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
         } catch (Exception ex) {
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
+        }
+        return lista;
+    }
+    
+    public List<ClPsvita> leerPsvita2(ClPsvita clPsvita) {
+        List<ClPsvita> lista=new ArrayList<>();
+        String strConsulta;
+        
+        strConsulta="select IdPsvita,codigo,nombre,region,disco,actualizacion,dlc,formato,tipoJuego,imagen from psvita where IdPsvita="+clPsvita.getId();
+        
+        try{
+         ResultSet rs=BD.getInstance().sqlSelect(strConsulta);
+         if(rs==null)return null;
+         while(rs.next()){
+             ClPsvita c = new ClPsvita(rs.getInt("IdPsvita"), rs.getString("codigo"), rs.getString("nombre"), 
+                     rs.getString("region"), rs.getString("disco"), rs.getString("actualizacion"), rs.getBoolean("dlc"), 
+                     rs.getString("formato"), rs.getString("tipoJuego"), rs.getBytes("imagen"));
+              lista.add(c);
+         }
+         
+        } catch (SQLException ex) {
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
+            Log.log(ex.getMessage());
+        } catch (Exception ex) {
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
         }
         return lista;
@@ -216,7 +225,7 @@ public class DAOPs2 {
     public int Cuantos() {
         String strConsulta;
         int num = 0;
-        strConsulta="select count(*) as cuantos from ps2 where codigo LIKE 'SCP2%';";
+        strConsulta="select count(*) as cuantos from psvita where codigo LIKE 'SCPV%';";
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);
@@ -226,10 +235,10 @@ public class DAOPs2 {
          }
          
         } catch (SQLException ex) {
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
         } catch (Exception ex) {
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
         }
         return num;
@@ -238,7 +247,7 @@ public class DAOPs2 {
     public int CuantosTotal() {
         String strConsulta;
         int num = 0;
-        strConsulta="select count(*) as cuantos from ps2;";
+        strConsulta="select count(*) as cuantos from psvita;";
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);
@@ -248,16 +257,16 @@ public class DAOPs2 {
          }
          
         } catch (SQLException ex) {
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
         } catch (Exception ex) {
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
         }
         return num;
     }
     
-    public void CrearTablaPDFPS2(String dest,String nombreArc){
+    public void CrearTablaPDFPSvita(String dest,String nombreArc){
         try {
             // Creamos un documento pdf con iText
             PdfWriter pdfWriter = new PdfWriter(dest+"./"+nombreArc+".pdf");
@@ -266,7 +275,7 @@ public class DAOPs2 {
             //Arriba,Abajo,derecha,izqueda
             doc.setMargins(80, 20, 20, 20);
             
-            PdfFont font1 = PdfFontFactory.createFont(StandardFonts.COURIER);
+            PdfFont font1 = PdfFontFactory.createFont(StandardFonts.TIMES_ITALIC);
 //            PdfFont font2 = PdfFontFactory.createFont(FontConstants.TIMES_ITALIC);
             
             Paragraph parrafo1 = new Paragraph(nombreArc).setFont(font1);
@@ -274,7 +283,7 @@ public class DAOPs2 {
             parrafo1.setFontSize(12f);
             
             // Creamos unas tablas
-            float[] anchos = {10f, 50f, 50f, 50f, 50f, 50f, 60f};
+            float[] anchos = {10f, 50f, 50f, 50f, 50f, 50f, 50f, 50f, 60f};
             Table tabla1 = new Table(anchos);
             Table tabla2 = new Table(anchos);
             
@@ -283,19 +292,23 @@ public class DAOPs2 {
             tabla1.addCell("Codigo");
             tabla1.addCell("Nombre");
             tabla1.addCell("Region");
-            tabla1.addCell("Idioma");
-            tabla1.addCell("Player");
             tabla1.addCell("Disco");
+            tabla1.addCell("Update");
+            tabla1.addCell("DLC");
+            tabla1.addCell("Formato");
+            tabla1.addCell("Tipo Juego");
             tabla1.addCell("Imagen");
-            List<ClPs2> lista=new DAOPs2().leerPs2();
+            List<ClPsvita> lista=new DAOPsvita().leerPsvita();
             for (int i = 0; i < lista.size(); i++) {
 //                tabla1.addCell(Integer.toString(lista.get(i).getId()));
                 tabla1.addCell(lista.get(i).getCodigo());
                 tabla1.addCell(lista.get(i).getNombre());
                 tabla1.addCell(lista.get(i).getRegion());
-                tabla1.addCell(lista.get(i).getIdiomas());
-                tabla1.addCell(Integer.toString(lista.get(i).getJugadores()));
                 tabla1.addCell(lista.get(i).getDisco());
+                tabla1.addCell(lista.get(i).getUpdate());
+                tabla1.addCell(siyno(lista.get(i).isDlc()));
+                tabla1.addCell(lista.get(i).getFormato());
+                tabla1.addCell(lista.get(i).getTipoJuego());
                 Image img;
                 if(lista.get(i).getImagen() != null){
                     img = new Image(ImageDataFactory.create(lista.get(i).getImagen()));
@@ -330,7 +343,7 @@ public class DAOPs2 {
             doc.close();
             
         } catch (IOException ex) {
-            Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
             Log.log(ex.getMessage());
         }finally{
             try {
@@ -338,10 +351,17 @@ public class DAOPs2 {
                 File objetofile = new File (dest+"./"+nombreArc+".pdf");
                 Desktop.getDesktop().open(objetofile);
             } catch (IOException ex) {
-                Logger.getLogger(DAOPs2.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DAOPsvita.class.getName()).log(Level.SEVERE, null, ex);
                 Log.log(ex.getMessage());
             }
                 
             }
+    }
+    
+    public String siyno(boolean b){
+        String rep="";
+        if(b==true){ rep="Si";}
+        if(b==false){ rep="No";}
+        return rep;
     }
 }

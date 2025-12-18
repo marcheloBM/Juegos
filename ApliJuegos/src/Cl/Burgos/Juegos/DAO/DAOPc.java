@@ -216,7 +216,7 @@ public class DAOPc {
     public int Cuantos() {
         String strConsulta;
         int num = 0;
-        strConsulta="select count(*) as cuantos from pc where codigo LIKE 'SCPC*';";
+        strConsulta="select count(*) as cuantos from pc where codigo LIKE 'SCPC%';";
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);

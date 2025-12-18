@@ -215,7 +215,7 @@ public class DAOPsx {
     public int Cuantos() {
         String strConsulta;
         int num = 0;
-        strConsulta="select count(*) as cuantos from psx where codigo LIKE 'SCPX*';";
+        strConsulta="select count(*) as cuantos from psx where codigo LIKE 'SCPX%';";
         
         try{
          ResultSet rs=BD.getInstance().sqlSelect(strConsulta);

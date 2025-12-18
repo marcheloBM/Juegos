@@ -326,7 +326,10 @@ public class FrHome extends javax.swing.JFrame {
 
     private void btnPsVitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPsVitaActionPerformed
         // TODO add your handling code here:
-        JOptionPane.showMessageDialog(null, "Sin Terminar");
+//        JOptionPane.showMessageDialog(null, "Sin Terminar");
+        FrPsVita frPsVita = new FrPsVita();
+        frPsVita.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnPsVitaActionPerformed
 
     /**

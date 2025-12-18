@@ -71,4 +71,17 @@ CREATE TABLE IF NOT EXISTS "psx" (
 	"imagen"	BLOB,
 	PRIMARY KEY("IdPsx" AUTOINCREMENT)
 );
+CREATE TABLE IF NOT EXISTS "psvita" (
+	"IdPsvita"	INTEGER,
+	"codigo"	TEXT,
+	"nombre"	TEXT,
+	"region"	TEXT,
+	"disco"         TEXT,
+        "actualizacion"	TEXT,
+        "dlc"           INTEGER,
+        "formato"       TEXT,
+        "tipoJuego"	TEXT,
+	"imagen"	BLOB,
+	PRIMARY KEY("IdPsvita" AUTOINCREMENT)
+);
 COMMIT;
