@@ -86,6 +86,7 @@ public class FrPs3 extends javax.swing.JFrame {
         buttonGroupUpdate.clearSelection();
         buttonGroupDLC.clearSelection();
         txtRuta.setText("");
+        txtRuta.setEditable(false);
         lblImgen.setText("");
         lblImgen.setIcon(null);
         defineTablaPs3();
@@ -129,13 +130,9 @@ public class FrPs3 extends javax.swing.JFrame {
         if(codi.length()==0){
             codi=GenerCodigo();
         }
-        if (txtRuta.getText().length() > 0) {
-            archivos.CopiarArchivos(txtRuta.getText(), System.getProperties().getProperty("user.dir")+"/IMG/PS3/"+codi.trim()+".jpg");
-            clPs3 = new ClPs3(codi.trim(), txtNombre.getText().trim(), region, txtIdiomas.getText().trim(), jsJugadores.getValue().hashCode(), txtDisco.getText().trim() + " " + capasid, update, dlc, txtRuta.getText());
-        } else {
-            String ruta = "./src/Cl/Burgos/Juegos/IMG/PS3.jpg";
-            clPs3 = new ClPs3(codi.trim(), txtNombre.getText().trim(), region, txtIdiomas.getText().trim(), jsJugadores.getValue().hashCode(), txtDisco.getText().trim() + " " + capasid, update, dlc, ruta);
-        }
+        archivos.CopiarArchivos(txtRuta.getText(), System.getProperties().getProperty("user.dir")+"/IMG/PS3/"+codi.trim()+".jpg");
+        clPs3 = new ClPs3(codi.trim(), txtNombre.getText().trim(), region, txtIdiomas.getText().trim(), jsJugadores.getValue().hashCode(), txtDisco.getText().trim() + " " + capasid, update, dlc, txtRuta.getText());
+        
         return clPs3;
     }
 
@@ -211,8 +208,7 @@ public class FrPs3 extends javax.swing.JFrame {
                 String urlImagen = System.getProperties().getProperty("user.dir")+"/IMG/PS3/"+lista.get(i).getCodigo()+".jpg";
                 File archivo = new File(urlImagen);
                 if (!archivo.exists()) {
-                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
-                    ImageIcon icon = new ImageIcon(ruta);
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg"));
                     ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
                     fila[9] = new JLabel(imgi);
                 }else{
@@ -295,8 +291,7 @@ public class FrPs3 extends javax.swing.JFrame {
                 String urlImagen = System.getProperties().getProperty("user.dir")+"/IMG/PS3/"+lista.get(i).getCodigo()+".jpg";
                 File archivo = new File(urlImagen);
                 if (!archivo.exists()) {
-                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
-                    ImageIcon icon = new ImageIcon(ruta);
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg"));
                     ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
                     fila[9] = new JLabel(imgi);
                 }else{

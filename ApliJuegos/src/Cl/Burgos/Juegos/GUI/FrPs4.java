@@ -87,6 +87,7 @@ public class FrPs4 extends javax.swing.JFrame {
         txtPatch.setText("");
         buttonGroupDLC.clearSelection();
         txtRuta.setText("");
+        txtRuta.setEditable(false);
         lblImgen.setText("");
         lblImgen.setIcon(null);
         defineTablaPs4();
@@ -130,14 +131,9 @@ public class FrPs4 extends javax.swing.JFrame {
         if(codi.length()==0){
             codi=GenerCodigo();
         }
-        if (txtRuta.getText().length() > 0) {
-            archivos.CopiarArchivos(txtRuta.getText(), System.getProperties().getProperty("user.dir")+"/IMG/PS4/"+codi.trim()+".jpg");
-            clPs4 = new ClPs4(codi.trim(), txtNombre.getText().trim(), region, txtIdiomas.getText().trim(), jsJugadores.getValue().hashCode(), txtDisco.getText().trim() + " " + capasid, update,txtPatch.getText().trim(), dlc, txtRuta.getText());
-        } else {
-            String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
-            archivos.CopiarArchivos(ruta, System.getProperties().getProperty("user.dir")+"/IMG/PS4/"+codi.trim()+".jpg");
-            clPs4 = new ClPs4(codi.trim(), txtNombre.getText().trim(), region, txtIdiomas.getText().trim(), jsJugadores.getValue().hashCode(), txtDisco.getText().trim() + " " + capasid, update,txtPatch.getText().trim(), dlc, ruta);
-        }
+        archivos.CopiarArchivos(txtRuta.getText(), System.getProperties().getProperty("user.dir")+"/IMG/PS4/"+codi.trim()+".jpg");
+        clPs4 = new ClPs4(codi.trim(), txtNombre.getText().trim(), region, txtIdiomas.getText().trim(), jsJugadores.getValue().hashCode(), txtDisco.getText().trim() + " " + capasid, update,txtPatch.getText().trim(), dlc, txtRuta.getText());
+        
         return clPs4;
     }
 
@@ -214,8 +210,7 @@ public class FrPs4 extends javax.swing.JFrame {
                 String urlImagen = System.getProperties().getProperty("user.dir")+"/IMG/PS4/"+lista.get(i).getCodigo()+".jpg";
                 File archivo = new File(urlImagen);
                 if (!archivo.exists()) {
-                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
-                    ImageIcon icon = new ImageIcon(ruta);
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg"));
                     ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
                     fila[10] = new JLabel(imgi);
                 }else{
@@ -299,8 +294,7 @@ public class FrPs4 extends javax.swing.JFrame {
                 String urlImagen = System.getProperties().getProperty("user.dir")+"/IMG/PS4/"+lista.get(i).getCodigo()+".jpg";
                 File archivo = new File(urlImagen);
                 if (!archivo.exists()) {
-                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
-                    ImageIcon icon = new ImageIcon(ruta);
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg"));
                     ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
                     fila[10] = new JLabel(imgi);
                 }else{

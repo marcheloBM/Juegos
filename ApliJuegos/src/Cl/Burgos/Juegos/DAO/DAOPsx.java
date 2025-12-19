@@ -23,6 +23,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -43,12 +44,8 @@ public class DAOPsx {
     public boolean sqlInsert(ClPsx psx) {
         Connection con = BD.getInstance().conectar();
         String insert = "insert into psx(codigo,nombre,region,lenguaje,jugadores,disco,imagen) values (?,?,?,?,?,?,?)";
-        FileInputStream fi = null;
         PreparedStatement ps = null;
-        try{
-            File file = new File(psx.getRuta());
-            fi = new FileInputStream(file);
-            
+        try{            
             ps = con.prepareStatement(insert);
             ps.setString(1, psx.getCodigo());
             ps.setString(2, psx.getNombre());
@@ -56,8 +53,28 @@ public class DAOPsx {
             ps.setString(4, psx.getIdiomas());
             ps.setInt(5, psx.getJugadores());
             ps.setString(6, psx.getDisco());
-            ps.setBinaryStream(7, fi);
             
+            // Manejo de la imagen
+            InputStream fi = null;
+            String ruta = psx.getRuta();
+
+            if (ruta != null && !ruta.trim().isEmpty()) {
+                File file = new File(ruta);
+                if (file.exists()) {
+                    fi = new FileInputStream(file);
+                } else {
+                    // Si la ruta no existe, usar imagen por defecto desde el JAR
+                    fi = getClass().getResourceAsStream("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg");
+                }
+            } else {
+                // Si la ruta está vacía, también usar imagen por defecto
+                fi = getClass().getResourceAsStream("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg");
+            }
+
+            // Asignar el stream al campo binario
+            ps.setBinaryStream(7, fi);
+
+            // Ejecutar
             ps.execute();
             return true;
         }catch(Exception ex){

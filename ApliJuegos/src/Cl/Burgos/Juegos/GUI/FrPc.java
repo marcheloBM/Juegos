@@ -99,6 +99,7 @@ public class FrPc extends javax.swing.JFrame {
         txtVideo.setText("");
         jcCapaVideo.setSelectedIndex(0);
         txtRuta.setText("");
+        txtRuta.setEditable(false);
         lblImgen.setText("");
         lblImgen.setIcon(null);
         defineTablaPC();
@@ -160,8 +161,7 @@ public class FrPc extends javax.swing.JFrame {
                 String urlImagen = System.getProperties().getProperty("user.dir")+"/IMG/PC/"+lista.get(i).getCodigo()+".jpg";
                 File archivo = new File(urlImagen);
                 if (!archivo.exists()) {
-                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
-                    ImageIcon icon = new ImageIcon(ruta);
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg"));
                     ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
                     fila[8] = new JLabel(imgi);
                 }else{
@@ -238,8 +238,7 @@ public class FrPc extends javax.swing.JFrame {
                 String urlImagen = System.getProperties().getProperty("user.dir")+"/IMG/PC/"+lista.get(i).getCodigo()+".jpg";
                 File archivo = new File(urlImagen);
                 if (!archivo.exists()) {
-                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
-                    ImageIcon icon = new ImageIcon(ruta);
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg"));
                     ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
                     fila[8] = new JLabel(imgi);
                 }else{
@@ -321,15 +320,11 @@ public class FrPc extends javax.swing.JFrame {
         if(codi.length()==0){
             codi=GenerCodigo();
         }
-        if(txtRuta.getText().length()>0){
-            archivos.CopiarArchivos(txtRuta.getText(), System.getProperties().getProperty("user.dir")+"/IMG/PC/"+codi.trim()+".jpg");
-            clPc = new ClPc(codi.trim(), txtNombre.getText().trim(), disco1+" "+capasid1, 
-                    proce+" "+capasidPro, siste1, txtRam.getText().trim()+" "+capaRam, txtVideo.getText().trim()+" "+capaVideo, txtRuta.getText());
-        }else{
-            String ruta = "./src/Cl/Burgos/Juegos/IMG/PC.jpg";
-            clPc = new ClPc(codi.trim(), txtNombre.getText().trim(), disco1+" "+capasid1, 
-                    proce+" "+capasidPro, siste1, txtRam.getText().trim()+" "+capaRam, txtVideo.getText().trim()+" "+capaVideo, ruta);
-        }
+
+        archivos.CopiarArchivos(txtRuta.getText(), System.getProperties().getProperty("user.dir")+"/IMG/PC/"+codi.trim()+".jpg");
+        clPc = new ClPc(codi.trim(), txtNombre.getText().trim(), disco1+" "+capasid1, 
+                proce+" "+capasidPro, siste1, txtRam.getText().trim()+" "+capaRam, txtVideo.getText().trim()+" "+capaVideo, txtRuta.getText());
+        
         return clPc;
     }
     public ClPc actualizar(){

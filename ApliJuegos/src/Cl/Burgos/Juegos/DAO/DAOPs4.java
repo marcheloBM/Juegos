@@ -24,6 +24,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -44,13 +45,8 @@ public class DAOPs4 {
     public boolean sqlInsert(ClPs4 ps4) {
         Connection con = BD.getInstance().conectar();
         String insert = "insert into ps4(codigo,nombre,region,lenguaje,jugadores,disco,actualizacion,patch,dlc,imagen) values (?,?,?,?,?,?,?,?,?,?)";
-        FileInputStream fi = null;
         PreparedStatement ps = null;
         try{
-            
-            File file = new File(ps4.getRuta());
-            fi = new FileInputStream(file);
-
             ps = con.prepareStatement(insert);
             ps.setString(1, ps4.getCodigo());
             ps.setString(2, ps4.getNombre());
@@ -61,8 +57,28 @@ public class DAOPs4 {
             ps.setBoolean(7, ps4.isUpdate());
             ps.setString(8, ps4.getPatch());
             ps.setBoolean(9, ps4.isDlc());
-            ps.setBinaryStream(10, fi);
             
+            // Manejo de la imagen
+            InputStream fi = null;
+            String ruta = ps4.getRuta();
+
+            if (ruta != null && !ruta.trim().isEmpty()) {
+                File file = new File(ruta);
+                if (file.exists()) {
+                    fi = new FileInputStream(file);
+                } else {
+                    // Si la ruta no existe, usar imagen por defecto desde el JAR
+                    fi = getClass().getResourceAsStream("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg");
+                }
+            } else {
+                // Si la ruta está vacía, también usar imagen por defecto
+                fi = getClass().getResourceAsStream("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg");
+            }
+
+            // Asignar el stream al campo binario
+            ps.setBinaryStream(10, fi);
+
+            // Ejecutar
             ps.execute();
             return true;
         }catch(Exception ex){

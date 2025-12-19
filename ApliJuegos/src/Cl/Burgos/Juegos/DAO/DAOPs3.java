@@ -23,6 +23,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -43,13 +44,8 @@ public class DAOPs3 {
     public boolean sqlInsert(ClPs3 ps3) {
         Connection con = BD.getInstance().conectar();
         String insert = "insert into ps3(codigo,nombre,region,lenguaje,jugadores,disco,actualizacion,dlc,imagen) values (?,?,?,?,?,?,?,?,?)";
-        FileInputStream fi = null;
         PreparedStatement ps = null;
         try{
-            
-            File file = new File(ps3.getRuta());
-            fi = new FileInputStream(file);
-
             ps = con.prepareStatement(insert);
             ps.setString(1, ps3.getCodigo());
             ps.setString(2, ps3.getNombre());
@@ -59,8 +55,28 @@ public class DAOPs3 {
             ps.setString(6, ps3.getDisco());
             ps.setBoolean(7, ps3.isUpdate());
             ps.setBoolean(8, ps3.isDlc());
-            ps.setBinaryStream(9, fi);
             
+            // Manejo de la imagen
+            InputStream fi = null;
+            String ruta = ps3.getRuta();
+
+            if (ruta != null && !ruta.trim().isEmpty()) {
+                File file = new File(ruta);
+                if (file.exists()) {
+                    fi = new FileInputStream(file);
+                } else {
+                    // Si la ruta no existe, usar imagen por defecto desde el JAR
+                    fi = getClass().getResourceAsStream("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg");
+                }
+            } else {
+                // Si la ruta está vacía, también usar imagen por defecto
+                fi = getClass().getResourceAsStream("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg");
+            }
+
+            // Asignar el stream al campo binario
+            ps.setBinaryStream(9, fi);
+
+            // Ejecutar
             ps.execute();
             return true;
         }catch(Exception ex){

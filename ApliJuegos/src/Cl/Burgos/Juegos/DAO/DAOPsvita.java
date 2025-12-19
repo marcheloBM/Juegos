@@ -22,6 +22,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -42,13 +43,8 @@ public class DAOPsvita {
     public boolean sqlInsert(ClPsvita clPsvita) {
         Connection con = BD.getInstance().conectar();
         String insert = "insert into psvita(codigo,nombre,region,disco,actualizacion,dlc,formato,tipoJuego,imagen) values (?,?,?,?,?,?,?,?,?)";
-        FileInputStream fi = null;
         PreparedStatement ps = null;
         try{
-            
-            File file = new File(clPsvita.getRuta());
-            fi = new FileInputStream(file);
-
             ps = con.prepareStatement(insert);
             ps.setString(1, clPsvita.getCodigo());
             ps.setString(2, clPsvita.getNombre());
@@ -59,8 +55,27 @@ public class DAOPsvita {
             ps.setString(7, clPsvita.getFormato());
             ps.setString(8, clPsvita.getTipoJuego());
             
+            // Manejo de la imagen
+            InputStream fi = null;
+            String ruta = clPsvita.getRuta();
+
+            if (ruta != null && !ruta.trim().isEmpty()) {
+                File file = new File(ruta);
+                if (file.exists()) {
+                    fi = new FileInputStream(file);
+                } else {
+                    // Si la ruta no existe, usar imagen por defecto desde el JAR
+                    fi = getClass().getResourceAsStream("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg");
+                }
+            } else {
+                // Si la ruta está vacía, también usar imagen por defecto
+                fi = getClass().getResourceAsStream("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg");
+            }
+
+            // Asignar el stream al campo binario
             ps.setBinaryStream(9, fi);
-            
+
+            // Ejecutar
             ps.execute();
             return true;
         }catch(Exception ex){

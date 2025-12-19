@@ -83,6 +83,7 @@ public class FrPsx extends javax.swing.JFrame {
         txtDisco.setText("");
         jsJugadores.setValue(1);
         txtRuta.setText("");
+        txtRuta.setEditable(false);
         lblImgen.setText("");
         lblImgen.setIcon(null);
         defineTablaPsx();
@@ -121,13 +122,9 @@ public class FrPsx extends javax.swing.JFrame {
         if(codi.length()==0){
             codi=GenerCodigo();
         }
-        if(txtRuta.getText().length()>0){
-            archivos.CopiarArchivos(txtRuta.getText(), System.getProperties().getProperty("user.dir")+"/IMG/PSX/"+codi.trim()+".jpg");
-            clPsx = new ClPsx(codi.trim(), txtNombre.getText().trim(), txtRegion.getText().trim(), txtIdiomas.getText().trim(), jsJugadores.getValue().hashCode(), txtDisco.getText().trim()+" "+capasid, txtRuta.getText());
-        }else{
-            String ruta = "./src/Cl/Burgos/Juegos/IMG/PSX.jpg";
-            clPsx = new ClPsx(codi.trim(), txtNombre.getText().trim(), txtRegion.getText().trim(), txtIdiomas.getText().trim(), jsJugadores.getValue().hashCode(), txtDisco.getText().trim()+" "+capasid, ruta);
-        }
+        archivos.CopiarArchivos(txtRuta.getText(), System.getProperties().getProperty("user.dir")+"/IMG/PSX/"+codi.trim()+".jpg");
+        clPsx = new ClPsx(codi.trim(), txtNombre.getText().trim(), txtRegion.getText().trim(), txtIdiomas.getText().trim(), jsJugadores.getValue().hashCode(), txtDisco.getText().trim()+" "+capasid, txtRuta.getText());
+        
         return clPsx;
     }
     public ClPsx actualizar(){
@@ -196,8 +193,7 @@ public class FrPsx extends javax.swing.JFrame {
                 String urlImagen = System.getProperties().getProperty("user.dir")+"/IMG/PSX/"+lista.get(i).getCodigo()+".jpg";
                 File archivo = new File(urlImagen);
                 if (!archivo.exists()) {
-                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
-                    ImageIcon icon = new ImageIcon(ruta);
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg"));
                     ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
                     fila[7] = new JLabel(imgi);
                 }else{
@@ -273,8 +269,7 @@ public class FrPsx extends javax.swing.JFrame {
                 String urlImagen = System.getProperties().getProperty("user.dir")+"/IMG/PSX/"+lista.get(i).getCodigo()+".jpg";
                 File archivo = new File(urlImagen);
                 if (!archivo.exists()) {
-                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
-                    ImageIcon icon = new ImageIcon(ruta);
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg"));
                     ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
                     fila[7] = new JLabel(imgi);
                 }else{

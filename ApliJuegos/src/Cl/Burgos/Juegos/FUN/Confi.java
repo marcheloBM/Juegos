@@ -13,10 +13,14 @@ package Cl.Burgos.Juegos.FUN;
 public interface Confi {
     
     //Configuracion de Directorio
-//    static String SO = System.getProperty("os.name");
+    //Sistema operativo
+    static String SO = System.getProperty("os.name");
+    //Directorio del usuario 
+    static String userDir = System.getProperty("user.home");
+    //Directorio del programa 
     static String Url=System.getProperty("user.dir");
     
     //Configuracion Nuevo Update
     static String repositorio = "https://github.com/marcheloBM/Juegos";
-    static String versionActual = "1.15";
+    static String versionActual = "1.16";
 }

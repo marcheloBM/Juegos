@@ -84,6 +84,7 @@ public class FrPsVita extends javax.swing.JFrame {
         txtActualizacion.setText("");
         buttonGroupDLC.clearSelection();
         txtRuta.setText("");
+        txtRuta.setEditable(false);
         lblImgen.setText("");
         lblImgen.setIcon(null);
         defineTablaPsvita();
@@ -128,14 +129,9 @@ public class FrPsVita extends javax.swing.JFrame {
         if(codi.length()==0){
             codi=GenerCodigo();
         }
-        if (txtRuta.getText().length() > 0) {
-            archivos.CopiarArchivos(txtRuta.getText(), System.getProperties().getProperty("user.dir")+"/IMG/PSVita/"+codi.trim()+".jpg");
-            clPsvita = new ClPsvita(codi.trim(), txtNombre.getText().trim(), region, txtDisco.getText().trim() + " " + capasid,txtActualizacion.getText().trim(), dlc, formato, tipoJuego, txtRuta.getText());
-        } else {
-            String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
-            archivos.CopiarArchivos(ruta, System.getProperties().getProperty("user.dir")+"/IMG/PSVita/"+codi.trim()+".jpg");
-            clPsvita = new ClPsvita(codi.trim(), txtNombre.getText().trim(), region, txtDisco.getText().trim() + " " + capasid,txtActualizacion.getText().trim(), dlc, formato, tipoJuego, ruta);
-        }
+        archivos.CopiarArchivos(txtRuta.getText(), System.getProperties().getProperty("user.dir")+"/IMG/PSVita/"+codi.trim()+".jpg");
+        clPsvita = new ClPsvita(codi.trim(), txtNombre.getText().trim(), region, txtDisco.getText().trim() + " " + capasid,txtActualizacion.getText().trim(), dlc, formato, tipoJuego, txtRuta.getText());
+        
         return clPsvita;
     }
 
@@ -210,8 +206,7 @@ public class FrPsVita extends javax.swing.JFrame {
                 String urlImagen = System.getProperties().getProperty("user.dir")+"/IMG/PSVita/"+lista.get(i).getCodigo()+".jpg";
                 File archivo = new File(urlImagen);
                 if (!archivo.exists()) {
-                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
-                    ImageIcon icon = new ImageIcon(ruta);
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg"));
                     ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
                     fila[9] = new JLabel(imgi);
                 }else{
@@ -292,8 +287,7 @@ public class FrPsVita extends javax.swing.JFrame {
                 String urlImagen = System.getProperties().getProperty("user.dir")+"/IMG/PSVita/"+lista.get(i).getCodigo()+".jpg";
                 File archivo = new File(urlImagen);
                 if (!archivo.exists()) {
-                    String ruta = "./src/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg";
-                    ImageIcon icon = new ImageIcon(ruta);
+                    ImageIcon icon = new ImageIcon(getClass().getResource("/Cl/Burgos/Juegos/IMG/Sin Imagen.jpg"));
                     ImageIcon imgi = new ImageIcon(icon.getImage().getScaledInstance(120,60,Image.SCALE_DEFAULT)); 
                     fila[9] = new JLabel(imgi);
                 }else{

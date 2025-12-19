@@ -5,14 +5,11 @@
  */
 package Cl.Burgos.Juegos.GUI;
 
+import Cl.Burgos.Juegos.BD.*;
 import Cl.Burgos.Juegos.DAO.*;
 import Cl.Burgos.Juegos.ENT.*;
-import Cl.Burgos.Juegos.FUN.Confi;
-import Cl.Burgos.Juegos.FUN.DescargarIMGAll;
-import Cl.Burgos.Juegos.FUN.Directorio;
+import Cl.Burgos.Juegos.FUN.*;
 import static Cl.Burgos.Juegos.FUN.Directorio.selecDirectrorio;
-import Cl.Burgos.Juegos.FUN.HiloPasos;
-import Cl.Burgos.Juegos.Main.ApliJuegos;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -33,6 +30,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 //import javax.swing.JProgressBar;
 //import jdk.nashorn.internal.ir.BreakNode;
+import java.io.*;
+import java.sql.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -92,7 +92,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
         TotalPSVita.setText("Total "+cantPSVita);
         TotalAll.setText("Total "+All);
     }
-
+    
     public static void crearDirec(String url){
         crearDirec(url,carpeta1);
         crearDirec(url+"/"+carpeta1, carpeta2);
@@ -176,6 +176,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
         TotalPSVita = new javax.swing.JLabel();
         DescargaPSVita = new javax.swing.JLabel();
         jButton16 = new javax.swing.JButton();
+        jBBackup = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(600, 400));
@@ -368,6 +369,13 @@ public class FrDescargarImg extends javax.swing.JFrame {
             }
         });
 
+        jBBackup.setText("Backup BD");
+        jBBackup.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBBackupActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -444,7 +452,8 @@ public class FrDescargarImg extends javax.swing.JFrame {
                                     .addComponent(jButton16)
                                     .addComponent(jButton9)
                                     .addComponent(jButton8)
-                                    .addComponent(jButton7)))
+                                    .addComponent(jButton7)
+                                    .addComponent(jBBackup)))
                             .addComponent(DescargaAll))
                         .addGap(0, 22, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -508,7 +517,9 @@ public class FrDescargarImg extends javax.swing.JFrame {
                     .addComponent(DescargaAll)
                     .addComponent(jLabel6))
                 .addGap(9, 9, 9)
-                .addComponent(jButton12)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton12)
+                    .addComponent(jBBackup))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -555,6 +566,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Total De Juegos PSX descargados "+Integer.toString(numPSX+1));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            Log.log(ex.getMessage());
 //                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -592,6 +604,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Total De Juegos PS2 descargados "+Integer.toString(numPS2+1));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            Log.log(ex.getMessage());
 //                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -626,6 +639,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Total De Juegos PSP descargados "+Integer.toString(numPSP+1));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            Log.log(ex.getMessage());
 //                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -660,6 +674,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Total De Juegos PS3 descargados "+Integer.toString(numPS3+1));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            Log.log(ex.getMessage());
 //                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -691,6 +706,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(null, "Total De Juegos PSX descargados "+Integer.toString(numPSX+1));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            Log.log(ex.getMessage());
 //                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
         }
         BarraProgreso(0, 0, cantPS2, 10);
@@ -721,6 +737,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(null, "Total De Juegos PS2 descargados "+Integer.toString(numPS2+1));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            Log.log(ex.getMessage());
 //                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
         }
         BarraProgreso(0, 0, cantPSP, 10);
@@ -751,6 +768,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(null, "Total De Juegos PSP descargados "+Integer.toString(numPSP+1));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            Log.log(ex.getMessage());
 //                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
         }
         BarraProgreso(0, 0, cantPS3, 10);
@@ -781,6 +799,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(null, "Total De Juegos PS3 descargados "+Integer.toString(numPS3+1));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            Log.log(ex.getMessage());
 //                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
         }
         BarraProgreso(0, 0, cantPS4, 10);
@@ -811,6 +830,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
 //            JOptionPane.showMessageDialog(null, "Total De Juegos PS4 descargados "+Integer.toString(numPS4+1));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            Log.log(ex.getMessage());
 //                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
         }
         BarraProgreso(0, 0, cantPC, 10);
@@ -843,6 +863,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Total De Juegos Descargados "+Integer.toString(numPSX+numPS2+numPS3+numPSP+numPc+5));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            Log.log(ex.getMessage());
 //                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -878,6 +899,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Total De Juegos PC descargados "+Integer.toString(numPc+1));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            Log.log(ex.getMessage());
 //                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton6ActionPerformed
@@ -958,6 +980,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Total De Juegos PS4 descargados "+Integer.toString(numPS4+1));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            Log.log(ex.getMessage());
 //                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton13ActionPerformed
@@ -1000,6 +1023,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Total De Juegos PSVita descargados "+Integer.toString(numPSP+1));
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            Log.log(ex.getMessage());
 //                Logger.getLogger(FrHome.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton15ActionPerformed
@@ -1012,6 +1036,97 @@ public class FrDescargarImg extends javax.swing.JFrame {
         new DAOPsvita().CrearTablaPDFPSvita(url,nombreArchivo);
     }//GEN-LAST:event_jButton16ActionPerformed
 
+    private void jBBackupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBackupActionPerformed
+        // TODO add your handling code here:
+        All=TotalJuegos();
+        BarraProgreso(0, 0, All, 5);
+        Connection con = BD.getInstance().conectar();
+        generarBackup(con, url+"backup.sql");
+    }//GEN-LAST:event_jBBackupActionPerformed
+
+   public void generarBackup(Connection con, String archivoDestino) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(archivoDestino))) {
+            // Inicio de la transacción
+            writer.println("-- Backup generado por la aplicación");
+            writer.println("BEGIN TRANSACTION;");
+
+            // Listar tablas reales de SQLite (excluyendo internas)
+            Statement stTables = con.createStatement();
+            ResultSet tables = stTables.executeQuery(
+                "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'"
+            );
+
+            while (tables.next()) {
+                String tabla = tables.getString("name");
+                Statement st = con.createStatement();
+                ResultSet rs = st.executeQuery("SELECT * FROM " + tabla);
+                ResultSetMetaData rsmd = rs.getMetaData();
+                int columnas = rsmd.getColumnCount();
+
+                List<String> filas = new ArrayList<>();
+                JOptionPane.showMessageDialog(null, "Trabajando en la tabla: "+tabla);
+
+                while (rs.next()) {
+                    StringBuilder fila = new StringBuilder("(");
+                    for (int i = 1; i <= columnas; i++) {
+                        Object valor = rs.getObject(i);
+                        if (valor == null) {
+                            fila.append("NULL");
+                        } else if (valor instanceof Number) {
+                            fila.append(valor);
+                        } else if (valor instanceof Boolean) {
+                            fila.append(((Boolean) valor) ? "1" : "0");
+                        } else if (valor instanceof byte[]) {
+                            // Convertir BLOB a HEX
+                            byte[] bytes = (byte[]) valor;
+                            StringBuilder hex = new StringBuilder("X'");
+                            for (byte b : bytes) {
+                                hex.append(String.format("%02X", b));
+                            }
+                            hex.append("'");
+                            fila.append(hex);
+                        } else {
+                            fila.append("'").append(valor.toString().replace("'", "''")).append("'");
+                        }
+                        if (i < columnas) fila.append(", ");
+                    }
+                    fila.append(")");
+                    filas.add(fila.toString());
+                }
+
+                if (!filas.isEmpty()) {
+                    StringBuilder insert = new StringBuilder("INSERT INTO ")
+                            .append(tabla).append(" VALUES\n");
+                    for (int i = 0; i < filas.size(); i++) {
+                        insert.append(filas.get(i));
+                        if (i < filas.size() - 1) {
+                            insert.append(",\n");
+                        } else {
+                            insert.append(";\n");
+                        }
+                    }
+                    writer.println(insert.toString());
+                }
+
+                rs.close();
+                st.close();
+            }
+
+            tables.close();
+            stTables.close();
+
+            // Fin de la transacción
+            writer.println("COMMIT;");
+            writer.flush();
+
+            System.out.println("Backup generado en: " + new File(archivoDestino).getAbsolutePath());
+            JOptionPane.showMessageDialog(null, "Backup generado en: "+new File(archivoDestino).getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.log(e.getMessage());
+        }
+    }
+    
     public void BarraProgreso(int inicio,int minimo,int maximo,int retraso){
         jProgressBar1.setValue(inicio);
         jProgressBar1.setMaximum(minimo);
@@ -1075,6 +1190,7 @@ public class FrDescargarImg extends javax.swing.JFrame {
     private javax.swing.JLabel TotalPSP;
     private javax.swing.JLabel TotalPSVita;
     private javax.swing.JLabel TotalPSX;
+    private javax.swing.JButton jBBackup;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
